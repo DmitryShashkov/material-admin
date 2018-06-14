@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SignInComponent } from '../../sign-in/sign-in.component';
+import { SignInComponent } from '../../views/sign-in/sign-in.component';
 
 export const UNAUTHORIZED_LAYOUT_ROUTES: Routes = [
     {

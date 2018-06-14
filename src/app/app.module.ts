@@ -8,12 +8,15 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { APP_ROUTES } from './app.routes';
 import { UnauthorizedLayoutComponent } from './layouts/unauthorized-layout/unauthorized-layout.component';
 import { NotFoundLayoutComponent } from './layouts/not-found-layout/not-found-layout.component';
+import { InterceptorsModule}  from './interceptors/interceptors.module';
+import {UsersService} from "./services/users.service";
 
 @NgModule({
     imports: [
         BrowserAnimationsModule,
         FormsModule,
         ComponentsModule,
+        InterceptorsModule,
         RouterModule.forRoot(APP_ROUTES),
     ],
     declarations: [
@@ -22,7 +25,9 @@ import { NotFoundLayoutComponent } from './layouts/not-found-layout/not-found-la
         UnauthorizedLayoutComponent,
         NotFoundLayoutComponent,
     ],
-    providers: [],
+    providers: [
+        UsersService,
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule { }
