@@ -12,6 +12,7 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MatButtonModule, MatInputModule, MatRippleModule, MatTooltipModule } from '@angular/material';
+import {ArticlesAddAndEditComponent} from "../../views/articles-add-and-edit/articles-add-and-edit.component";
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { MatButtonModule, MatInputModule, MatRippleModule, MatTooltipModule } fr
         MapsComponent,
         NotificationsComponent,
         UpgradeComponent,
+        ArticlesAddAndEditComponent,
     ],
 })
 export class AdminLayoutModule {}

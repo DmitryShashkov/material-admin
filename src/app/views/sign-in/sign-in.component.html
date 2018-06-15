@@ -1,2 +1,5 @@
-you better log in
-<button (click)="signIn()">I do</button>
+<form [formGroup]="signInForm">
+    <input placeholder="Email" [formControl]="signInForm.controls['email']" />
+    <input placeholder="Password" [formControl]="signInForm.controls['password']" />
+</form>
+<button (click)="signIn()">Sign in</button>

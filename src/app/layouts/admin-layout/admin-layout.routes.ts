@@ -7,6 +7,8 @@ import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
+import {RoutingContract} from "../../contracts/routing.contract";
+import {ArticlesAddAndEditComponent} from "../../views/articles-add-and-edit/articles-add-and-edit.component";
 
 export const ADMIN_LAYOUT_ROUTES: Routes = [
     {
@@ -40,5 +42,9 @@ export const ADMIN_LAYOUT_ROUTES: Routes = [
     {
         path: 'upgrade',
         component: UpgradeComponent,
+    },
+    {
+        path: RoutingContract.AdminLayout.ADD_ARTICLE,
+        component: ArticlesAddAndEditComponent,
     },
 ];

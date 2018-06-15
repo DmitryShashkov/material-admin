@@ -1,126 +1,57 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { ROUTES } from '../sidebar/sidebar.component';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
+
+enum CssClasses {
+    NAV_OPEN = 'nav-open',
+    TOGGLED = 'toggled',
+}
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
-    private listTitles: any[];
-    location: Location;
-      mobile_menu_visible: any = 0;
-    private toggleButton: any;
-    private sidebarVisible: boolean;
+export class NavbarComponent implements OnInit, AfterViewInit {
+    private isSidebarVisible: boolean = false;
 
-    constructor(location: Location,  private element: ElementRef, private router: Router) {
-      this.location = location;
-          this.sidebarVisible = false;
+    @ViewChild('navbarToggler')
+    private navbarToggler: ElementRef;
+
+    private body: HTMLElement;
+
+    constructor (
+        private router: Router,
+        private renderer: Renderer2,
+    ) { }
+
+    public ngOnInit () : void {
+        this.router.events.subscribe(() => {
+            this.closeSidebar();
+        });
     }
 
-    ngOnInit(){
-      this.listTitles = ROUTES.filter(listTitle => listTitle);
-      const navbar: HTMLElement = this.element.nativeElement;
-      this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-      this.router.events.subscribe((event) => {
-        this.sidebarClose();
-         var $layer: any = document.getElementsByClassName('close-layer')[0];
-         if ($layer) {
-           $layer.remove();
-           this.mobile_menu_visible = 0;
-         }
-     });
+    public ngAfterViewInit () : void {
+        this.body = document.body;
     }
 
-    sidebarOpen() {
-        const toggleButton = this.toggleButton;
-        const body = document.getElementsByTagName('body')[0];
-        setTimeout(function(){
-            toggleButton.classList.add('toggled');
-        }, 500);
+    private openSidebar () : void {
+        this.renderer.addClass(this.body, CssClasses.NAV_OPEN);
+        this.renderer.addClass(this.navbarToggler.nativeElement, CssClasses.TOGGLED);
+        this.isSidebarVisible = true;
+    }
 
-        body.classList.add('nav-open');
+    private closeSidebar () {
+        this.renderer.removeClass(this.body, CssClasses.NAV_OPEN);
+        this.renderer.removeClass(this.navbarToggler.nativeElement, CssClasses.TOGGLED);
 
-        this.sidebarVisible = true;
-    };
-    sidebarClose() {
-        const body = document.getElementsByTagName('body')[0];
-        this.toggleButton.classList.remove('toggled');
-        this.sidebarVisible = false;
-        body.classList.remove('nav-open');
-    };
-    sidebarToggle() {
-        // const toggleButton = this.toggleButton;
-        // const body = document.getElementsByTagName('body')[0];
-        var $toggle = document.getElementsByClassName('navbar-toggler')[0];
+        this.isSidebarVisible = false;
+    }
 
-        if (this.sidebarVisible === false) {
-            this.sidebarOpen();
-        } else {
-            this.sidebarClose();
-        }
-        const body = document.getElementsByTagName('body')[0];
-
-        if (this.mobile_menu_visible == 1) {
-            // $('html').removeClass('nav-open');
-            body.classList.remove('nav-open');
-            if ($layer) {
-                $layer.remove();
-            }
-            setTimeout(function() {
-                $toggle.classList.remove('toggled');
-            }, 400);
-
-            this.mobile_menu_visible = 0;
-        } else {
-            setTimeout(function() {
-                $toggle.classList.add('toggled');
-            }, 430);
-
-            var $layer = document.createElement('div');
-            $layer.setAttribute('class', 'close-layer');
-
-
-            if (body.querySelectorAll('.main-panel')) {
-                document.getElementsByClassName('main-panel')[0].appendChild($layer);
-            }else if (body.classList.contains('off-canvas-sidebar')) {
-                document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
-            }
-
-            setTimeout(function() {
-                $layer.classList.add('visible');
-            }, 100);
-
-            $layer.onclick = function() { //asign a function
-              body.classList.remove('nav-open');
-              this.mobile_menu_visible = 0;
-              $layer.classList.remove('visible');
-              setTimeout(function() {
-                  $layer.remove();
-                  $toggle.classList.remove('toggled');
-              }, 400);
-            }.bind(this);
-
-            body.classList.add('nav-open');
-            this.mobile_menu_visible = 1;
-
-        }
-    };
-
-    getTitle(){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      if(titlee.charAt(0) === '#'){
-          titlee = titlee.slice( 2 );
-      }
-      titlee = titlee.split('/').pop();
-
-      for(var item = 0; item < this.listTitles.length; item++){
-          if(this.listTitles[item].path === titlee){
-              return this.listTitles[item].title;
-          }
-      }
-      return 'Dashboard';
+    public toggleSidebar () : void {
+        (this.isSidebarVisible)
+            ? this.closeSidebar()
+            : this.openSidebar();
     }
 }

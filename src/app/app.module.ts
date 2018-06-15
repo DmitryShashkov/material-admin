@@ -8,15 +8,19 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { APP_ROUTES } from './app.routes';
 import { UnauthorizedLayoutComponent } from './layouts/unauthorized-layout/unauthorized-layout.component';
 import { NotFoundLayoutComponent } from './layouts/not-found-layout/not-found-layout.component';
-import { InterceptorsModule}  from './interceptors/interceptors.module';
-import {UsersService} from "./services/users.service";
+import { InterceptorsModule }  from './interceptors/interceptors.module';
+import { UsersService } from './services/users.service';
+import { ToastrModule } from 'ngx-toastr';
+import { GuardsModule } from './guards/guards.module';
 
 @NgModule({
     imports: [
         BrowserAnimationsModule,
         FormsModule,
+        ToastrModule.forRoot(),
         ComponentsModule,
         InterceptorsModule,
+        GuardsModule,
         RouterModule.forRoot(APP_ROUTES),
     ],
     declarations: [
