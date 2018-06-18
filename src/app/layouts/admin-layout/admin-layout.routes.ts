@@ -9,6 +9,7 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import {RoutingContract} from "../../contracts/routing.contract";
 import {ArticlesAddAndEditComponent} from "../../views/articles-add-and-edit/articles-add-and-edit.component";
+import {ManageImagesComponent} from "../../views/manage-images/manage-images.component";
 
 export const ADMIN_LAYOUT_ROUTES: Routes = [
     {
@@ -46,5 +47,9 @@ export const ADMIN_LAYOUT_ROUTES: Routes = [
     {
         path: RoutingContract.AdminLayout.ADD_ARTICLE,
         component: ArticlesAddAndEditComponent,
+    },
+    {
+        path: RoutingContract.AdminLayout.MANAGE_IMAGES,
+        component: ManageImagesComponent,
     },
 ];

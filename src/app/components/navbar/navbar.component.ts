@@ -2,11 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Renderer2 } fr
 import { Router } from '@angular/router';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
-
-enum CssClasses {
-    NAV_OPEN = 'nav-open',
-    TOGGLED = 'toggled',
-}
+import { CssClasses } from '../../enums/css-classes.enum';
 
 @Component({
     selector: 'app-navbar',

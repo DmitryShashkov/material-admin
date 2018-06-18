@@ -12,6 +12,7 @@ import { InterceptorsModule }  from './interceptors/interceptors.module';
 import { UsersService } from './services/users.service';
 import { ToastrModule } from 'ngx-toastr';
 import { GuardsModule } from './guards/guards.module';
+import {FilesService} from "./services/files.service";
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { GuardsModule } from './guards/guards.module';
     ],
     providers: [
         UsersService,
+        FilesService,
     ],
     bootstrap: [AppComponent],
 })
