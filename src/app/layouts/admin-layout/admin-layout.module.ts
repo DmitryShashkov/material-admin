@@ -12,8 +12,7 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MatButtonModule, MatInputModule, MatRippleModule, MatTooltipModule } from '@angular/material';
-import {ArticlesAddAndEditComponent} from "../../views/articles-add-and-edit/articles-add-and-edit.component";
-import {ManageImagesComponent} from "../../views/manage-images/manage-images.component";
+import { ManageImagesComponent } from '../../views/manage-images/manage-images.component';
 
 @NgModule({
     imports: [
@@ -34,7 +33,6 @@ import {ManageImagesComponent} from "../../views/manage-images/manage-images.com
         MapsComponent,
         NotificationsComponent,
         UpgradeComponent,
-        ArticlesAddAndEditComponent,
         ManageImagesComponent,
     ],
 })

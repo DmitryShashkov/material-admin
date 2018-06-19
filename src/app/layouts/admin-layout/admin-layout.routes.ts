@@ -46,7 +46,7 @@ export const ADMIN_LAYOUT_ROUTES: Routes = [
     },
     {
         path: RoutingContract.AdminLayout.ADD_ARTICLE,
-        component: ArticlesAddAndEditComponent,
+        loadChildren: '../../views/articles-add-and-edit/articles-add-and-edit.module#ArticlesAddAndEditModule',
     },
     {
         path: RoutingContract.AdminLayout.MANAGE_IMAGES,

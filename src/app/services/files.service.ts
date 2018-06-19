@@ -16,7 +16,7 @@ export class FilesService {
         // headers.set('content-type', 'multipart/form-data');
 
         const data: FormData = new FormData();
-        data.append('file', file);
+        data.append('image', file);
 
         return this.http.post(url, data, { headers });
     }

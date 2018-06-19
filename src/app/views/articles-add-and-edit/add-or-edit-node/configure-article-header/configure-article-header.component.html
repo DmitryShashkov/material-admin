@@ -1,0 +1,32 @@
+<h5>
+    Article header configuration:
+</h5>
+<form [formGroup]="nodeForm">
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder="Title"
+                [formControl]="nodeForm.controls[FormsContract.NodeHeader.TITLE]"
+            />
+        </mat-form-field>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-outline-secondary btn-block" type="button" mat-button
+            (click)="imgFileInput.click()">
+            Background image
+        </button>
+        <input hidden type="file" #imgFileInput
+            [formControl]="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE]"
+        />
+
+        <!--(change)="addBackgroundImage($event)"-->
+    </div>
+</form>
+
+<app-image-preview
+    [file]="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].value"
+    (onError)="onImagePreviewError($event)">
+</app-image-preview>
+
+<button class="btn btn-primary btn-block" type="button" mat-button (click)="submit()">
+    Add article header
+</button>

@@ -13,6 +13,8 @@ import { UsersService } from './services/users.service';
 import { ToastrModule } from 'ngx-toastr';
 import { GuardsModule } from './guards/guards.module';
 import {FilesService} from "./services/files.service";
+import {PipesModule} from "./pipes/pipes.module";
+import {DirectivesModule} from "./directives/directives.module";
 
 @NgModule({
     imports: [
@@ -22,6 +24,8 @@ import {FilesService} from "./services/files.service";
         ComponentsModule,
         InterceptorsModule,
         GuardsModule,
+        PipesModule,
+        DirectivesModule,
         RouterModule.forRoot(APP_ROUTES),
     ],
     declarations: [
