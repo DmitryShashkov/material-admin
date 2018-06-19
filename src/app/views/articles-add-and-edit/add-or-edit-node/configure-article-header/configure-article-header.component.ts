@@ -46,10 +46,11 @@ export class ConfigureArticleHeaderComponent implements OnChanges {
     }
 
     public onImagePreviewError (error: Error) : void {
-        this.toastr.error(error.message);
-        // setTimeout(() => {
-        //     this.toastr.error(error.message);
-        // });
+        // preventing ExpressionChangedAfterItHasBeenCheckedError on runtime; fault is not mine, it comes from
+        // ngx-toastr, which, in their turn, draws it from material2: https://github.com/scttcper/ngx-toastr/issues/160
+        window.requestAnimationFrame(() => {
+            this.toastr.error(error.message);
+        });
     }
 
     public submit () : void {

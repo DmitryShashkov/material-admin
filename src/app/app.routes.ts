@@ -13,7 +13,7 @@ export const APP_ROUTES: Routes = [
     {
         path: '',
         component: AdminLayoutComponent,
-        canActivate: [AuthenticatedGuard],
+        // canActivate: [AuthenticatedGuard],
         loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule',
     },
     {
