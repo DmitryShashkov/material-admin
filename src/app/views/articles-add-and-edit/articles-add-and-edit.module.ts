@@ -9,6 +9,7 @@ import {AddOrEditNodeComponent} from "./add-or-edit-node/add-or-edit-node.compon
 import {ConfigureArticleHeaderComponent} from "./add-or-edit-node/configure-article-header/configure-article-header.component";
 import {ComponentsModule} from "../../components/components.module";
 import {DirectivesModule} from "../../directives/directives.module";
+import {PipesModule} from "../../pipes/pipes.module";
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import {DirectivesModule} from "../../directives/directives.module";
         ReactiveFormsModule,
         ComponentsModule,
         DirectivesModule,
+        PipesModule,
         RouterModule.forChild(ARTICLES_ADD_AND_EDIT_ROUTES),
     ],
     declarations: [

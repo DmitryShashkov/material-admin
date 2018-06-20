@@ -7,6 +7,9 @@
             <input matInput placeholder="Title"
                 [formControl]="nodeForm.controls[FormsContract.NodeHeader.TITLE]"
             />
+            <mat-error *ngIf="nodeForm.controls[FormsContract.NodeHeader.TITLE].hasError(FormsContract.Errors.REQUIRED)">
+                Article title is required!
+            </mat-error>
         </mat-form-field>
     </div>
     <div class="form-group">
@@ -17,16 +20,25 @@
         <input hidden type="file" #imgFileInput
             [formControl]="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE]"
         />
-
-        <!--(change)="addBackgroundImage($event)"-->
     </div>
 </form>
 
+<span class="fon text-danger" *ngIf="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].hasError(FormsContract.Errors.REQUIRED)">
+    Background image is required!
+</span>
+<span class="text-danger" *ngIf="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].hasError(FormsContract.Errors.IMAGE_TOO_LARGE)">
+    Image too large: maximum of {{ MAX_ALLOWED_IMAGE_SIZE | megabytes }} MB is allowed.
+</span>
+<span class="text-danger" *ngIf="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].hasError(FormsContract.Errors.IMAGE_IMPROPER_TYPE)">
+    Chosen image type isn't supported; please use PNG or JPEG.
+</span>
 <app-image-preview
     [file]="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].value"
     (onError)="onImagePreviewError($event)">
 </app-image-preview>
 
-<button class="btn btn-primary btn-block" type="button" mat-button (click)="submit()">
+<button class="btn btn-primary btn-block" type="button" mat-button
+    [disabled]="nodeForm.invalid"
+    (click)="submit()">
     Add article header
 </button>

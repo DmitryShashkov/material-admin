@@ -1,4 +1,4 @@
-import {BaseModel, ModelProperty} from "ts-json-mapper";
+import { BaseModel, ModelProperty } from 'ts-json-mapper';
 
 export class ImageElement extends BaseModel {
     @ModelProperty()
@@ -10,8 +10,14 @@ export class ImageElement extends BaseModel {
     public link: string;
 
     constructor (options: any) {
-        super(options);
+        if (options instanceof File) {
+            super({});
+            this.file = options;
+            this.isUploaded = false;
+            return;
+        }
 
+        super(options);
         this.file = options.file;
     }
 }

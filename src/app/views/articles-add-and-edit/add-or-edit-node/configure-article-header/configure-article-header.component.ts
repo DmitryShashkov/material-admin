@@ -1,19 +1,11 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    NgZone,
-    OnChanges,
-    OnInit,
-    Output
-} from "@angular/core";
-import {ArticleNode} from "../../../../models/ArticleNode";
-import {NodeHeader} from "../../../../models/NodeHeader";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {FormsContract} from "../../../../contracts/forms.contract";
-import {CONFIGURE_ARTICLE_HEADER_FORM_CONFIG} from "./configure-article-header.form-config";
-import {ToastrService} from "ngx-toastr";
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ArticleNode } from '../../../../models/ArticleNode';
+import { NodeHeader } from '../../../../models/NodeHeader';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormsContract } from '../../../../contracts/forms.contract';
+import { CONFIGURE_ARTICLE_HEADER_FORM_CONFIG } from './configure-article-header.form-config';
+import { ToastrService } from 'ngx-toastr';
+import { MAX_ALLOWED_IMAGE_SIZE } from '../../../../app.constants';
 
 @Component({
     selector: 'app-configure-article-header',
@@ -28,13 +20,13 @@ export class ConfigureArticleHeaderComponent implements OnChanges {
     public onSubmit: EventEmitter<ArticleNode> = new EventEmitter<ArticleNode>();
 
     public readonly FormsContract: typeof FormsContract = FormsContract;
+    public readonly MAX_ALLOWED_IMAGE_SIZE: number = MAX_ALLOWED_IMAGE_SIZE;
 
     public nodeForm: FormGroup;
 
     constructor (
         private formBuilder: FormBuilder,
         private toastr: ToastrService,
-        private zone: NgZone,
     ) {
         this.nodeForm = formBuilder.group(CONFIGURE_ARTICLE_HEADER_FORM_CONFIG);
     }
@@ -54,8 +46,9 @@ export class ConfigureArticleHeaderComponent implements OnChanges {
     }
 
     public submit () : void {
-        // if (this.nodeForm.invalid) { return; }
+        if (this.nodeForm.invalid) { return; }
 
-        console.log(this.nodeForm.value);
+        const newNode: NodeHeader = new NodeHeader(this.nodeForm.value);
+        this.onSubmit.emit(newNode);
     }
 }

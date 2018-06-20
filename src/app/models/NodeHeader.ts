@@ -1,7 +1,7 @@
-import {ArticleNode} from "./ArticleNode";
-import {ArticleNodeTypes} from "../enums/article-node-types.enum";
-import {ImageElement} from "./ImageElement";
-import {ModelProperty} from "ts-json-mapper";
+import { ArticleNode } from './ArticleNode';
+import { ArticleNodeTypes } from '../enums/article-node-types.enum';
+import { ImageElement } from './ImageElement';
+import { ModelProperty } from 'ts-json-mapper';
 
 export class NodeHeader extends ArticleNode {
     @ModelProperty()

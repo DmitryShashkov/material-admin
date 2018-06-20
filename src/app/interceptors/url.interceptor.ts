@@ -2,7 +2,9 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { isFileRequest } from '../utils/is-file-request';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class UrlInterceptor implements HttpInterceptor {
     intercept (request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (isFileRequest(request.url)) {
