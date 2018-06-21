@@ -5,6 +5,7 @@ import {ArticleSettings} from "../types/article-settings";
 import {HttpClient} from "@angular/common/http";
 import {ImageElement} from "../models/ImageElement";
 import 'rxjs/add/observable/merge';
+import {UploadImagesResponse} from "./types/upload-images.response";
 
 @Injectable()
 export class BlogService {
@@ -12,14 +13,19 @@ export class BlogService {
         private http: HttpClient,
     ) { }
 
-    public uploadImages (images: ImageElement[]) : Observable<any> {
+    public uploadImage (image: ImageElement) : Observable<UploadImagesResponse> {
         const url: string = '/image-uploads';
-        const observables: Observable<any>[] = images.map((image: ImageElement) => {
-            const payload: FormData = new FormData();
-            payload.append('image', image.file);
-            return this.http.post<any>(url, payload);
-        });
-        return Observable.merge(...observables);
+        const imageFieldName: string = 'image';
+        const replaceFieldName: string = 'replaceOf';
+
+        const payload: FormData = new FormData();
+        payload.append(imageFieldName, image.file);
+
+        if (image.link) {
+            payload.append(replaceFieldName, image.link);
+        }
+
+        return this.http.post<UploadImagesResponse>(url, payload);
     }
 
     // settings: ArticleSettings

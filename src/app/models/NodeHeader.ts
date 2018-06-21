@@ -15,4 +15,12 @@ export class NodeHeader extends ArticleNode {
 
         this.type = ArticleNodeTypes.HEADER;
     }
+
+    public getTitleText () : string {
+        return this.title;
+    }
+
+    public getTitleImage () : ImageElement {
+        return this.backgroundImage;
+    }
 }

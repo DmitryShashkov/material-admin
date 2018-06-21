@@ -1,9 +1,26 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-9"></div>
+            <div class="col-md-9" dnd-sortable-container [sortableData]="nodes">
+                <div class="card card-stats" *ngFor="let node of nodes; let i = index" dnd-sortable [sortableIndex]="i">
+                    <div class="card-header card-header-icon"
+                         app-node-card [node]="node">
+                    </div>
+                    <div class="card-footer card-controls">
+                        <div class="stats" dnd-sortable-handle>
+                            <i class="material-icons">drag_indicator</i> Move
+                        </div>
+                        <div class="stats" (click)="openEditNodeModal(i)">
+                            <i class="material-icons">edit</i> Edit
+                        </div>
+                        <div class="stats">
+                            <i class="material-icons">delete</i> Delete
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-3">
-                <button (click)="openAddNodeModal()">Open modal</button>
+                <button (click)="openAddNodeModal()">Add node</button>
                 <button (click)="publish()">Publish</button>
             </div>
         </div>

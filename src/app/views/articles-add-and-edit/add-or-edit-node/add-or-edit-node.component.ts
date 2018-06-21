@@ -1,7 +1,8 @@
-import {Component} from "@angular/core";
+import {Component, Inject} from "@angular/core";
 import {ArticleNodeTypes} from "../../../enums/article-node-types.enum";
 import {ArticleNode} from "../../../models/ArticleNode";
-import {MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {OpenEditModalDto} from "../types/open-edit-modal.dto";
 
 @Component({
     selector: 'app-add-node',
@@ -13,9 +14,17 @@ export class AddOrEditNodeComponent {
 
     public currentNodeType: ArticleNodeTypes = ArticleNodeTypes.HEADER;
 
+    public nodeToEdit: ArticleNode;
+
     constructor (
         public dialogRef: MatDialogRef<AddOrEditNodeComponent>,
-    ) { }
+        @Inject(MAT_DIALOG_DATA) public injectedData: OpenEditModalDto,
+    ) {
+        if (this.injectedData) {
+            this.currentNodeType = this.injectedData.nodeToEdit.type;
+            this.nodeToEdit = this.injectedData.nodeToEdit;
+        }
+    }
 
     public onNodeSubmitted (node: ArticleNode) : void {
         this.dialogRef.close(node);

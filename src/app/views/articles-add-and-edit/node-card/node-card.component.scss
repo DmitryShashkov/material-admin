@@ -1,0 +1,14 @@
+.card-icon {
+    background-color: #eeeeee !important;
+    border: 1px solid #cdcdcd;
+
+    .card-image-holder {
+        height: 100px;
+    }
+}
+
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

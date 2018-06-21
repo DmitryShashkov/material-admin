@@ -20,6 +20,7 @@
       "styles": [
           "../node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
           "../node_modules/ngx-toastr/toastr.css",
+          "../node_modules/ng2-dnd/bundles/style.css",
           "./assets/scss/material-dashboard.scss",
           "./assets/css/demo.css"
       ],

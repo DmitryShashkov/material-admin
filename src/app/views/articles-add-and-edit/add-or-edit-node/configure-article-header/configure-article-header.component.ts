@@ -14,7 +14,7 @@ import { MAX_ALLOWED_IMAGE_SIZE } from '../../../../app.constants';
 })
 export class ConfigureArticleHeaderComponent implements OnChanges {
     @Input()
-    public node: NodeHeader;
+    public nodeToEdit: NodeHeader;
 
     @Output()
     public onSubmit: EventEmitter<ArticleNode> = new EventEmitter<ArticleNode>();
@@ -32,9 +32,10 @@ export class ConfigureArticleHeaderComponent implements OnChanges {
     }
 
     public ngOnChanges () : void {
-        // if (this.node) {
-        //     this.nodeForm.controls[FormsContract.NodeHeader.TITLE].setValue(this.node.title);
-        // }
+        if (this.nodeToEdit) {
+            this.nodeForm.controls[FormsContract.NodeHeader.TITLE].setValue(this.nodeToEdit.title);
+            this.nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].setValue(this.nodeToEdit.backgroundImage.file);
+        }
     }
 
     public onImagePreviewError (error: Error) : void {
