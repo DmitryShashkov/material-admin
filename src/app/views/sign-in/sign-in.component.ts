@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ServerError } from '../../types/server-error';
 import { ToastrService } from 'ngx-toastr';
 import { UserModel } from '../../models/user.model';
+import { FormsContract } from '../../contracts/forms.contract';
 
 @Component({
     selector: 'app-sign-in',
@@ -14,6 +15,8 @@ import { UserModel } from '../../models/user.model';
     styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent {
+    public readonly FormsContract: typeof FormsContract = FormsContract;
+
     public readonly signInForm: FormGroup;
 
     constructor (

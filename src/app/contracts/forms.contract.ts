@@ -1,4 +1,9 @@
 export namespace FormsContract {
+    export namespace SignIn {
+        export const EMAIL = 'email';
+        export const PASSWORD = 'password';
+    }
+
     export namespace NodeHeader {
         export const TITLE = 'title';
         export const BACKGROUND_IMAGE = 'backgroundImage';

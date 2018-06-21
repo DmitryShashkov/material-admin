@@ -1,5 +1,29 @@
-<form [formGroup]="signInForm">
-    <input placeholder="Email" [formControl]="signInForm.controls['email']" />
-    <input placeholder="Password" [formControl]="signInForm.controls['password']" />
-</form>
-<button (click)="signIn()">Sign in</button>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">CR admin panel</h4>
+                        <p class="card-category">Authorized personnel only</p>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="signInForm">
+                            <mat-form-field>
+                                <input matInput placeholder="Email"
+                                    [formControl]="signInForm.controls[FormsContract.SignIn.EMAIL]"
+                                />
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Password"
+                                    [formControl]="signInForm.controls[FormsContract.SignIn.PASSWORD]"
+                                />
+                            </mat-form-field>
+                        </form>
+                        <button class="btn btn-danger btn-block" mat-raised-button (click)="signIn()">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
