@@ -16,6 +16,7 @@ import {FilesService} from "./services/files.service";
 import {PipesModule} from "./pipes/pipes.module";
 import {DirectivesModule} from "./directives/directives.module";
 import {BlogService} from "./services/blog.service";
+import {ConfirmationService} from "./services/confirmation.service";
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import {BlogService} from "./services/blog.service";
         UsersService,
         FilesService,
         BlogService,
+        ConfirmationService,
     ],
     bootstrap: [AppComponent],
 })

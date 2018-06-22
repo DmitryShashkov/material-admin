@@ -10,10 +10,14 @@ import {UploadImagesResponse} from "../../services/types/upload-images.response"
 import 'rxjs/add/operator/last';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/never';
+import 'rxjs/add/observable/of';
 import {ToastrService} from "ngx-toastr";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ServerErrorResponse} from "../../services/types/server-error.response";
 import {OpenEditModalDto} from "./types/open-edit-modal.dto";
+import {ConfirmationService} from "../../services/confirmation.service";
 
 @Component({
     selector: 'app-articles-add-and-edit',
@@ -25,6 +29,7 @@ export class ArticlesAddAndEditComponent {
         private dialog: MatDialog,
         private blogService: BlogService,
         private toastr: ToastrService,
+        private confirmation: ConfirmationService,
     ) { }
 
     public nodes: ArticleNode[] = [];
@@ -84,6 +89,26 @@ export class ArticlesAddAndEditComponent {
             });
     }
 
+    public deleteNode (nodeIndex: number) : void {
+        const question: string = 'Do you really want to delete this node?';
+        this.confirmation.ask(question)
+            .flatMap((confirmed: boolean) => {
+                return (confirmed)
+                    ? Observable.of(null)
+                    : Observable.never();
+            })
+            .flatMap(() => {
+                const images: ImageElement[] = ArticlesAddAndEditComponent.extractImages(this.nodes[nodeIndex]);
+                return (images.length)
+                    ? this.performImagesDeleting(images)
+                    : Observable.of(null);
+            })
+            .subscribe(() => {
+                const deleteCount: number = 1;
+                this.nodes.splice(nodeIndex, deleteCount);
+            });
+    }
+
     private performImagesUploading () : Observable<any> {
         const observables: Observable<UploadImagesResponse>[] = [];
 
@@ -112,6 +137,16 @@ export class ArticlesAddAndEditComponent {
         const serverErrorResponse: ServerErrorResponse = response.error;
         const message: string = serverErrorResponse.message || serverErrorResponse.error;
         this.toastr.error(message);
+    }
+
+    private performImagesDeleting (images: ImageElement[]) : Observable<void> {
+        const observables: Observable<void>[] = images
+            .filter((image) => !!image.link)
+            .map((image) => this.blogService.deleteImage(image));
+
+        return (observables.length)
+            ? Observable.merge(...observables)
+            : Observable.of(null);
     }
 
     public publish () : void {
