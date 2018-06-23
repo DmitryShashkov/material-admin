@@ -1,8 +1,8 @@
-import {Component, Inject} from "@angular/core";
-import {ArticleNodeTypes} from "../../../enums/article-node-types.enum";
-import {ArticleNode} from "../../../models/ArticleNode";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {OpenEditModalDto} from "../types/open-edit-modal.dto";
+import { Component, Inject } from '@angular/core';
+import { ArticleNodeTypes } from '../../../enums/article-node-types.enum';
+import { ArticleNode } from '../../../models/ArticleNode';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { OpenEditModalDto } from '../types/open-edit-modal.dto';
 
 @Component({
     selector: 'app-add-node',
@@ -11,6 +11,8 @@ import {OpenEditModalDto} from "../types/open-edit-modal.dto";
 })
 export class AddOrEditNodeComponent {
     public readonly NODE_TYPES: typeof ArticleNodeTypes = ArticleNodeTypes;
+
+    public readonly NODE_TYPES_LIST: string[] = Object.values(ArticleNodeTypes);
 
     public currentNodeType: ArticleNodeTypes = ArticleNodeTypes.HEADER;
 

@@ -3,7 +3,7 @@ import { ArticlesAddAndEditComponent } from './articles-add-and-edit.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ARTICLES_ADD_AND_EDIT_ROUTES } from './articles-add-and-edit.routes';
-import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddOrEditNodeComponent } from './add-or-edit-node/add-or-edit-node.component';
 import { ConfigureArticleHeaderComponent } from './add-or-edit-node/configure-article-header/configure-article-header.component';
@@ -12,6 +12,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { PipesModule } from '../../pipes/pipes.module';
 import { NodeCardComponent } from './node-card/node-card.component';
 import { DndModule } from 'ng2-dnd';
+import { ConfigureCommonTextComponent } from './add-or-edit-node/configure-common-text/configure-common-text.component';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { DndModule } from 'ng2-dnd';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
+        MatSelectModule,
         DndModule.forRoot(),
         FormsModule,
         ReactiveFormsModule,
@@ -33,6 +35,7 @@ import { DndModule } from 'ng2-dnd';
         AddOrEditNodeComponent,
         NodeCardComponent,
         ConfigureArticleHeaderComponent,
+        ConfigureCommonTextComponent,
     ],
     entryComponents: [
         AddOrEditNodeComponent,

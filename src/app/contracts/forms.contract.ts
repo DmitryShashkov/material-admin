@@ -9,6 +9,10 @@ export namespace FormsContract {
         export const BACKGROUND_IMAGE = 'backgroundImage';
     }
 
+    export namespace NodeCommonText {
+        export const TEXT = 'text';
+    }
+
     export namespace Errors {
         export const REQUIRED = 'required';
 

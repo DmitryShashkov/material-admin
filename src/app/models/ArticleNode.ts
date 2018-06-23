@@ -6,7 +6,9 @@ export abstract class ArticleNode extends BaseModel {
     @ModelProperty()
     public type: ArticleNodeTypes;
 
-    public abstract getTitleText () : string;
+    public abstract getPrimaryText () : string;
+
+    public abstract getSecondaryText () : string;
 
     public abstract getTitleImage () : ImageElement;
 }

@@ -1,10 +1,28 @@
-adding node!
+<h4 [ngSwitch]="!!nodeToEdit">
+    <ng-container *ngSwitchCase="false">
+        Add article node:
+    </ng-container>
+    <ng-container *ngSwitchCase="true">
+        Edit article node:
+    </ng-container>
+</h4>
 
-<span *ngIf="!!nodeToEdit">(actually editing)</span>
+<mat-form-field>
+    <mat-select [(value)]="currentNodeType" [disabled]="!!nodeToEdit">
+        <mat-option *ngFor="let nodeType of NODE_TYPES_LIST" [value]="nodeType">
+            {{ nodeType | split }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
 
 <ng-container [ngSwitch]="currentNodeType">
     <app-configure-article-header *ngSwitchCase="NODE_TYPES.HEADER"
         [nodeToEdit]="nodeToEdit"
         (onSubmit)="onNodeSubmitted($event)">
     </app-configure-article-header>
+
+    <app-configure-common-text *ngSwitchCase="NODE_TYPES.COMMON_TEXT"
+        [nodeToEdit]="nodeToEdit"
+        (onSubmit)="onNodeSubmitted($event)">
+    </app-configure-common-text>
 </ng-container>

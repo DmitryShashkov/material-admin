@@ -5,9 +5,13 @@
     .card-image-holder {
         height: 100px;
     }
+
+    .fa {
+        color: #cdcdcd;
+    }
 }
 
-.card-title {
+.one-liner {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

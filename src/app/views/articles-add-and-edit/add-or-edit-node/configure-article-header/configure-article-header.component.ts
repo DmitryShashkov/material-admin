@@ -16,7 +16,7 @@ import {SubscriptionsContract} from "../../../../contracts/subscriptions.contrac
     templateUrl: './configure-article-header.component.html',
     styleUrls: ['./configure-article-header.component.scss'],
 })
-export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent implements OnChanges, OnDestroy {
+export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<NodeHeader> implements OnChanges, OnDestroy {
     public readonly FormsContract: typeof FormsContract = FormsContract;
     public readonly MAX_ALLOWED_IMAGE_SIZE: number = MAX_ALLOWED_IMAGE_SIZE;
 

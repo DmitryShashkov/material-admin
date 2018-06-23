@@ -1,13 +1,12 @@
 import { ImageElement } from '../models/ImageElement';
 import { BlogService } from '../services/blog.service';
 import { CommonComponent } from './CommonComponent';
-import { NodeHeader } from '../models/NodeHeader';
 import { EventEmitter, Input, Output } from '@angular/core';
 import { ArticleNode } from '../models/ArticleNode';
 
-export abstract class ConfigureNodeComponent extends CommonComponent {
+export abstract class ConfigureNodeComponent<T extends ArticleNode> extends CommonComponent {
     @Input()
-    public nodeToEdit: NodeHeader;
+    public nodeToEdit: T;
 
     @Output()
     public onSubmit: EventEmitter<ArticleNode> = new EventEmitter<ArticleNode>();

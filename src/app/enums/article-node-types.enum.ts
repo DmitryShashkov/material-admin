@@ -1,4 +1,5 @@
 export enum ArticleNodeTypes {
     HEADER = 'header',
-    ANNOTATION = 'annotation',
+    // ANNOTATION = 'annotation',
+    COMMON_TEXT = 'common-text',
 }

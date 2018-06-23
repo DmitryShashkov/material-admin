@@ -39,6 +39,8 @@
 
 <button class="btn btn-primary btn-block" type="button" mat-button
     [disabled]="nodeForm.invalid"
-    (click)="submit()">
-    Add article header
+    (click)="submit()" [ngSwitch]="!!nodeToEdit">
+    <ng-container *ngSwitchCase="true">Edit</ng-container>
+    <ng-container *ngSwitchCase="false">Add</ng-container>
+    article header block
 </button>

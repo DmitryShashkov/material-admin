@@ -1,5 +1,9 @@
 <div class="card-icon">
-    <img class="card-image-holder" [src]="imageSrc" />
+    <img class="card-image-holder" [src]="imageSrc" *ngIf="!!imageSrc" />
+    <i class="fa fa-bars" *ngIf="!imageSrc"></i>
 </div>
-<p class="card-category">{{ subtitleText }}</p>
-<h3 class="card-title">{{ titleText }}</h3>
+
+<p class="card-category">{{ nodeType }}</p>
+
+<h3 class="card-title one-liner">{{ primaryText }}</h3>
+<p class="card-category one-liner">{{ secondaryText }}</p>

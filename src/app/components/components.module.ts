@@ -8,6 +8,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ImagePreviewComponent } from './image-preview/image-preview.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { MatDialogModule } from '@angular/material';
+import {MdeEditorComponent} from "./mde-editor/mde-editor.component";
 
 @NgModule({
     imports: [
@@ -21,12 +22,14 @@ import { MatDialogModule } from '@angular/material';
         SidebarComponent,
         ImagePreviewComponent,
         ConfirmationComponent,
+        MdeEditorComponent,
     ],
     exports: [
         FooterComponent,
         NavbarComponent,
         SidebarComponent,
         ImagePreviewComponent,
+        MdeEditorComponent,
     ],
     entryComponents: [
         ConfirmationComponent,

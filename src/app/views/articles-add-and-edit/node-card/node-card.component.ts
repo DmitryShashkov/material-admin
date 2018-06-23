@@ -8,9 +8,10 @@ import { ImageElement } from '../../../models/ImageElement';
     styleUrls: ['./node-card.component.scss'],
 })
 export class NodeCardComponent implements OnChanges {
-    public titleText: string;
+    public primaryText: string;
+    public secondaryText: string;
 
-    public subtitleText: string;
+    public nodeType: string;
 
     public imageSrc: string;
 
@@ -22,8 +23,9 @@ export class NodeCardComponent implements OnChanges {
     public ngOnChanges () : void {
         if (!this.node) { return; }
 
-        this.titleText = this.node.getTitleText();
-        this.subtitleText = this.node.type;
+        this.primaryText = this.node.getPrimaryText();
+        this.secondaryText = this.node.getSecondaryText();
+        this.nodeType = this.node.type;
 
         const image: ImageElement = this.node.getTitleImage();
         if (!image) { return; }
