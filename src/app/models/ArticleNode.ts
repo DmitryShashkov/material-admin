@@ -1,8 +1,9 @@
 import { ArticleNodeTypes } from '../enums/article-node-types.enum';
-import { BaseModel } from 'ts-json-mapper';
+import {BaseModel, ModelProperty} from 'ts-json-mapper';
 import { ImageElement } from './ImageElement';
 
 export abstract class ArticleNode extends BaseModel {
+    @ModelProperty()
     public type: ArticleNodeTypes;
 
     public abstract getTitleText () : string;

@@ -12,26 +12,32 @@ export class ImagePreviewComponent implements OnChanges {
         MimeTypes.IMAGE_PNG,
     ];
 
-    @Input()
-    public file: File;
+    @Input() public file: File;
+
+    @Input() public link: string;
 
     @Output()
     public onError: EventEmitter<Error> = new EventEmitter<Error>();
 
     private reader: FileReader = new FileReader();
 
-    public imageDataURL: string;
+    public imageSource: string;
 
     constructor () {
         this.reader.onload = this.previewFile.bind(this);
     }
 
     public ngOnChanges () : void {
+        if (this.link) {
+            this.imageSource = this.link;
+            return;
+        }
+
         if (this.file) {
             const imageType: MimeTypes = this.file.type as MimeTypes;
             if (!this.ALLOWED_MIME_TYPES.includes(imageType)) {
                 const errorMessage: string = `Cannot preview file of type ${imageType}, please use PNG or JPEG`;
-                this.imageDataURL = null;
+                this.imageSource = null;
                 this.onError.emit(new Error(errorMessage));
                 return;
             }
@@ -41,6 +47,6 @@ export class ImagePreviewComponent implements OnChanges {
     }
 
     private previewFile () {
-        this.imageDataURL = this.reader.result;
+        this.imageSource = this.reader.result;
     }
 }

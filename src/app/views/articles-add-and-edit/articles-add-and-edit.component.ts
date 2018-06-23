@@ -3,21 +3,22 @@ import { ArticleNode } from '../../models/ArticleNode';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { AddOrEditNodeComponent } from './add-or-edit-node/add-or-edit-node.component';
 import { Subscription } from 'rxjs/Subscription';
-import {BlogService} from "../../services/blog.service";
-import {ImageElement} from "../../models/ImageElement";
-import {Observable} from "rxjs/Observable";
-import {UploadImagesResponse} from "../../services/types/upload-images.response";
+import { BlogService } from '../../services/blog.service';
+import { ImageElement } from '../../models/ImageElement';
+import { Observable } from 'rxjs/Observable';
+import { UploadImagesResponse } from '../../services/types/upload-images.response';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ServerErrorResponse } from '../../services/types/server-error.response';
+import { OpenEditModalDto } from './types/open-edit-modal.dto';
+import { ConfirmationService } from '../../services/confirmation.service';
 import 'rxjs/add/operator/last';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/never';
 import 'rxjs/add/observable/of';
-import {ToastrService} from "ngx-toastr";
-import {HttpErrorResponse} from "@angular/common/http";
-import {ServerErrorResponse} from "../../services/types/server-error.response";
-import {OpenEditModalDto} from "./types/open-edit-modal.dto";
-import {ConfirmationService} from "../../services/confirmation.service";
+import {ArticleSettings} from "../../types/article-settings";
 
 @Component({
     selector: 'app-articles-add-and-edit',
@@ -109,25 +110,6 @@ export class ArticlesAddAndEditComponent {
             });
     }
 
-    private performImagesUploading () : Observable<any> {
-        const observables: Observable<UploadImagesResponse>[] = [];
-
-        for (const node of this.nodes) {
-            const images: ImageElement[] = ArticlesAddAndEditComponent.extractImages(node);
-
-            for (const image of images) {
-                observables.push(this.blogService.uploadImage(image)
-                    .do((response: UploadImagesResponse) => {
-                        image.isUploaded = true;
-                        image.link = response.link;
-                        image.file = null;
-                    }));
-            }
-        }
-
-        return Observable.merge(...observables);
-    }
-
     private handleImageUploaded (response: UploadImagesResponse) : void {
         const message: string = `Image processed successfully: ${response.link}`;
         this.toastr.success(message);
@@ -149,12 +131,60 @@ export class ArticlesAddAndEditComponent {
             : Observable.of(null);
     }
 
+    private hasNotLoadedImages () : boolean {
+        let images: ImageElement[] = [];
+
+        for (const node of this.nodes) {
+            images = images.concat(ArticlesAddAndEditComponent.extractImages(node));
+        }
+
+        const notUploadedImages: ImageElement[] = images.filter((image: ImageElement) => !!image.file);
+
+        return !!notUploadedImages.length;
+    }
+
+    public uploadImages () : void {
+        const observables: Observable<UploadImagesResponse>[] = [];
+
+        for (const node of this.nodes) {
+            const images: ImageElement[] = ArticlesAddAndEditComponent.extractImages(node)
+                .filter((image: ImageElement) => !!image.file);
+
+            for (const image of images) {
+                observables.push(this.blogService.uploadImage(image)
+                    .do((response: UploadImagesResponse) => {
+                        image.setLinkOnly(response.link);
+                    }));
+            }
+        }
+
+        if (!observables.length) {
+            const message: string = 'No images to upload';
+            this.toastr.info(message);
+            return;
+        }
+
+        Observable.merge(...observables).subscribe(
+            this.handleImageUploaded.bind(this),
+            this.handleImageUploadError.bind(this),
+        );
+    }
+
     public publish () : void {
-        // const images: ImageElement[] = this.extractImages();
-        this.performImagesUploading().subscribe(this.handleImageUploaded.bind(this), this.handleImageUploadError.bind(this), () => {
-            console.log('uploaded!');
-            console.log(this.nodes);
-        })
+        if (this.hasNotLoadedImages()) {
+            const message: string = 'You have images that are not uploaded to server yet - upload them first';
+            this.toastr.warning(message);
+            return;
+        }
+
+        const tmpSettings: ArticleSettings = {
+            metaTitle: 'Best title ever',
+            metaDescription: 'Mediocre description',
+        };
+
+        this.blogService.publish(this.nodes, tmpSettings).subscribe(console.log);
+
+        // console.log();
         // this.blogService.uploadImages(images).subscribe(console.log, console.log);
 
         // this.blogService.publish(this.nodes).subscribe((res) => {

@@ -1,9 +1,6 @@
 import { BaseModel, ModelProperty } from 'ts-json-mapper';
 
 export class ImageElement extends BaseModel {
-    @ModelProperty()
-    public isUploaded: boolean;
-
     public file: File;
 
     @ModelProperty()
@@ -13,11 +10,20 @@ export class ImageElement extends BaseModel {
         if (options instanceof File) {
             super({});
             this.file = options;
-            this.isUploaded = false;
             return;
         }
 
         super(options);
         this.file = options.file;
+    }
+
+    public setFileOnly (value: File) : void {
+        this.file = value;
+        this.link = null;
+    }
+
+    public setLinkOnly (value: string) : void {
+        this.link = value;
+        this.file = null;
     }
 }
