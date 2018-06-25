@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {ArticleNode} from "../models/ArticleNode";
-import {ArticleSettings} from "../types/article-settings";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {ImageElement} from "../models/ImageElement";
 import 'rxjs/add/observable/merge';
 import {UploadImagesResponse} from "./types/upload-images.response";
 import {FilesPipe} from "../pipes/files.pipe";
+import {ArticleSettings} from "../models/ArticleSettings";
 
 @Injectable()
 export class BlogService {

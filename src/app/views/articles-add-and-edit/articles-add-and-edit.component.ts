@@ -18,7 +18,8 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/never';
 import 'rxjs/add/observable/of';
-import {ArticleSettings} from "../../types/article-settings";
+import { ArticleSettingsComponent } from './article-settings/article-settings.component';
+import { ArticleSettings } from '../../models/ArticleSettings';
 
 @Component({
     selector: 'app-articles-add-and-edit',
@@ -34,6 +35,8 @@ export class ArticlesAddAndEditComponent {
     ) { }
 
     public nodes: ArticleNode[] = [];
+
+    private settings: ArticleSettings;
 
     private addNode (node: ArticleNode) : void {
         if (node) {
@@ -170,6 +173,20 @@ export class ArticlesAddAndEditComponent {
         );
     }
 
+    public openSettingsModal () : void {
+        const options: MatDialogConfig = {
+            width: '640px',
+        };
+        const dialogRef: MatDialogRef<ArticleSettingsComponent>
+            = this.dialog.open(ArticleSettingsComponent, options);
+
+        const dialogSubscription: Subscription = dialogRef.afterClosed()
+            .subscribe(() => {
+                console.log('set up');
+                dialogSubscription.unsubscribe();
+            });
+    }
+
     public publish () : void {
         if (this.hasNotLoadedImages()) {
             const message: string = 'You have images that are not uploaded to server yet - upload them first';
@@ -177,12 +194,7 @@ export class ArticlesAddAndEditComponent {
             return;
         }
 
-        const tmpSettings: ArticleSettings = {
-            metaTitle: 'Best title ever',
-            metaDescription: 'Mediocre description',
-        };
-
-        this.blogService.publish(this.nodes, tmpSettings).subscribe(console.log);
+        this.blogService.publish(this.nodes, this.settings).subscribe(console.log);
 
         // console.log();
         // this.blogService.uploadImages(images).subscribe(console.log, console.log);

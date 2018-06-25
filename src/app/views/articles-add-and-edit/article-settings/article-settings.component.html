@@ -1,0 +1,88 @@
+<h4>
+    Article settings
+</h4>
+
+<form [formGroup]="settingsForm">
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Title"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.TITLE]"
+                />
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Description"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.DESCRIPTION]"
+                />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Meta title (SEO)"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.META_TITLE]"
+                />
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Mega description (SEO)"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.META_DESCRIPTION]"
+                />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Display URL"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.DISPLAY_URL]"
+                />
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Last breadcrumb"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.LAST_BREADCRUMB]"
+                />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [matDatepicker]="publishingDatePicker" placeholder="Publishing date"
+                    [formControl]="settingsForm.controls[FormsContract.ArticleSettings.PUBLISHING_DATE]"
+                />
+                <mat-datepicker-toggle matSuffix [for]="publishingDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #publishingDatePicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-outline-secondary btn-block" type="button" mat-button
+                (click)="imgFileInput.click()">
+                Background image
+            </button>
+            <input hidden type="file" #imgFileInput
+                [formControl]="settingsForm.controls[FormsContract.ArticleSettings.PREVIEW_IMAGE]"
+            />
+        </div>
+    </div>
+
+    <app-image-preview
+        [file]="settingsForm.controls[FormsContract.ArticleSettings.PREVIEW_IMAGE].valueChanges | async"
+        (onError)="onImagePreviewError($event)">
+    </app-image-preview>
+
+    <mat-checkbox [formControl]="settingsForm.controls[FormsContract.ArticleSettings.IS_POPULAR]">
+        Mark article as popular
+    </mat-checkbox>
+</form>
+
+<button (click)="confirm()">Confirm</button>

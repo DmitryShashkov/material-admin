@@ -9,23 +9,23 @@ import { APP_ROUTES } from './app.routes';
 import { UnauthorizedLayoutComponent } from './layouts/unauthorized-layout/unauthorized-layout.component';
 import { NotFoundLayoutComponent } from './layouts/not-found-layout/not-found-layout.component';
 import { InterceptorsModule }  from './interceptors/interceptors.module';
-import { UsersService } from './services/users.service';
 import { ToastrModule } from 'ngx-toastr';
 import { GuardsModule } from './guards/guards.module';
-import {FilesService} from "./services/files.service";
-import {PipesModule} from "./pipes/pipes.module";
-import {DirectivesModule} from "./directives/directives.module";
-import {BlogService} from "./services/blog.service";
-import {ConfirmationService} from "./services/confirmation.service";
+import { PipesModule } from './pipes/pipes.module';
+import { DirectivesModule } from './directives/directives.module';
+import { MatNativeDateModule } from '@angular/material';
+import { ServicesModule } from './services/services.module';
 
 @NgModule({
     imports: [
         BrowserAnimationsModule,
         FormsModule,
         ToastrModule.forRoot(),
+        MatNativeDateModule,
         ComponentsModule,
         InterceptorsModule,
         GuardsModule,
+        ServicesModule,
         PipesModule,
         DirectivesModule,
         RouterModule.forRoot(APP_ROUTES),
@@ -35,12 +35,6 @@ import {ConfirmationService} from "./services/confirmation.service";
         AdminLayoutComponent,
         UnauthorizedLayoutComponent,
         NotFoundLayoutComponent,
-    ],
-    providers: [
-        UsersService,
-        FilesService,
-        BlogService,
-        ConfirmationService,
     ],
     bootstrap: [AppComponent],
 })

@@ -10,6 +10,7 @@ import {BlogService} from "../../../../services/blog.service";
 import {ConfigureNodeComponent} from "../../../../classes/ConfigureNodeComponent";
 import {ImageElement} from "../../../../models/ImageElement";
 import {SubscriptionsContract} from "../../../../contracts/subscriptions.contract";
+import {NotificationsService} from "../../../../services/notifications.service";
 
 @Component({
     selector: 'app-configure-article-header',
@@ -24,7 +25,7 @@ export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<Node
 
     constructor (
         private formBuilder: FormBuilder,
-        private toastr: ToastrService,
+        private notifier: NotificationsService,
         blogService: BlogService,
     ) {
         super(blogService);
@@ -49,11 +50,7 @@ export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<Node
     }
 
     public onImagePreviewError (error: Error) : void {
-        // preventing ExpressionChangedAfterItHasBeenCheckedError on runtime; fault is not mine, it comes from
-        // ngx-toastr, which, in their turn, draws it from material2: https://github.com/scttcper/ngx-toastr/issues/160
-        window.requestAnimationFrame(() => {
-            this.toastr.error(error.message);
-        });
+        this.notifier.error(error.message);
     }
 
     private removePreviouslyUploadedImage () : void {

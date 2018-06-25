@@ -1,10 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { MimeTypes } from '../../enums/mime-types.enum';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'app-image-preview',
     templateUrl: './image-preview.component.html',
     styleUrls: ['./image-preview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImagePreviewComponent implements OnChanges {
     private readonly ALLOWED_MIME_TYPES: MimeTypes[] = [
@@ -21,7 +23,7 @@ export class ImagePreviewComponent implements OnChanges {
 
     private reader: FileReader = new FileReader();
 
-    public imageSource: string;
+    public imageSource: BehaviorSubject<string> = new BehaviorSubject<string>((null));
 
     constructor () {
         this.reader.onload = this.previewFile.bind(this);
@@ -29,7 +31,7 @@ export class ImagePreviewComponent implements OnChanges {
 
     public ngOnChanges () : void {
         if (this.link) {
-            this.imageSource = this.link;
+            this.imageSource.next(this.link);
             return;
         }
 
@@ -37,7 +39,7 @@ export class ImagePreviewComponent implements OnChanges {
             const imageType: MimeTypes = this.file.type as MimeTypes;
             if (!this.ALLOWED_MIME_TYPES.includes(imageType)) {
                 const errorMessage: string = `Cannot preview file of type ${imageType}, please use PNG or JPEG`;
-                this.imageSource = null;
+                this.imageSource.next((null));
                 this.onError.emit(new Error(errorMessage));
                 return;
             }
@@ -47,6 +49,6 @@ export class ImagePreviewComponent implements OnChanges {
     }
 
     private previewFile () {
-        this.imageSource = this.reader.result;
+        this.imageSource.next(this.reader.result);
     }
 }

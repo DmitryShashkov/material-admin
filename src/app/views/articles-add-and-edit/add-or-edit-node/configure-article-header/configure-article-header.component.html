@@ -23,7 +23,7 @@
     </div>
 </form>
 
-<span class="fon text-danger" *ngIf="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].hasError(FormsContract.Errors.REQUIRED)">
+<span class="text-danger" *ngIf="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].hasError(FormsContract.Errors.REQUIRED)">
     Background image is required!
 </span>
 <span class="text-danger" *ngIf="nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE].hasError(FormsContract.Errors.IMAGE_TOO_LARGE)">

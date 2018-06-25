@@ -4,6 +4,18 @@ export namespace FormsContract {
         export const PASSWORD = 'password';
     }
 
+    export namespace ArticleSettings {
+        export const TITLE = 'title';
+        export const DESCRIPTION = 'description';
+        export const META_TITLE = 'metaTitle';
+        export const META_DESCRIPTION = 'metaDescription';
+        export const DISPLAY_URL = 'displayUrl';
+        export const LAST_BREADCRUMB = 'lastBreadcrumb';
+        export const PUBLISHING_DATE = 'publishingDate';
+        export const PREVIEW_IMAGE = 'previewImage';
+        export const IS_POPULAR = 'isPopular';
+    }
+
     export namespace NodeHeader {
         export const TITLE = 'title';
         export const BACKGROUND_IMAGE = 'backgroundImage';
