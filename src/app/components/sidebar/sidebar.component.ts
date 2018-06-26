@@ -27,6 +27,11 @@ export class SidebarComponent implements OnInit {
             title: 'Manage images',
             icon: 'insert_photo',
         },
+        {
+            path: RoutingContract.AdminLayout.ARTICLES_LIST,
+            title: 'Manage articles',
+            icon: 'list_alt',
+        },
     ];
 
     constructor () { }

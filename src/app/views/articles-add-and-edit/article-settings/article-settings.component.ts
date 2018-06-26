@@ -81,14 +81,14 @@ export class ArticleSettingsComponent extends CommonComponent implements AfterVi
             = this.settingsForm.controls[FormsContract.ArticleSettings.PREVIEW_IMAGE];
         const options: Object = { emitEvent: false };
 
-        previewImageControl.setValue(file, options);
-
-        this.articlePreview.forceRedraw(file);
-
         this.updateSubscription(
             SubscriptionsContract.Images.TRACK_PREVIOUS,
             previewImageControl.valueChanges.subscribe(this.removePreviouslyUploadedImage.bind(this)),
         );
+
+        previewImageControl.setValue(file, options);
+
+        this.articlePreview.forceRedraw(file);
     }
 
     private removePreviouslyUploadedImage () : void {

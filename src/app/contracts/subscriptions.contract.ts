@@ -10,4 +10,8 @@ export namespace SubscriptionsContract {
         export const DELETE_PREVIOUS = 'deletePreviousImage';
         export const TRACK_PREVIOUS = 'trackPreviousImage';
     }
+
+    export namespace ArticlesList {
+        export const GET_LIST = 'getList';
+    }
 }

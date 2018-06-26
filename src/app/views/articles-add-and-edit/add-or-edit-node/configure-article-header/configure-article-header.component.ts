@@ -50,12 +50,12 @@ export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<Node
         const backgroundImageControl: AbstractControl
             = this.nodeForm.controls[FormsContract.NodeHeader.BACKGROUND_IMAGE];
 
-        backgroundImageControl.setValue(file);
-
         this.updateSubscription(
             SubscriptionsContract.Images.TRACK_PREVIOUS,
             backgroundImageControl.valueChanges.subscribe(this.removePreviouslyUploadedImage.bind(this)),
         );
+
+        backgroundImageControl.setValue(file);
     }
 
     private removePreviouslyUploadedImage () : void {

@@ -10,6 +10,7 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import {RoutingContract} from "../../contracts/routing.contract";
 import {ArticlesAddAndEditComponent} from "../../views/articles-add-and-edit/articles-add-and-edit.component";
 import {ManageImagesComponent} from "../../views/manage-images/manage-images.component";
+import {ArticlesListComponent} from "../../views/articles-list/articles-list.component";
 
 export const ADMIN_LAYOUT_ROUTES: Routes = [
     {
@@ -51,5 +52,9 @@ export const ADMIN_LAYOUT_ROUTES: Routes = [
     {
         path: RoutingContract.AdminLayout.MANAGE_IMAGES,
         component: ManageImagesComponent,
+    },
+    {
+        path: RoutingContract.AdminLayout.ARTICLES_LIST,
+        component: ArticlesListComponent,
     },
 ];

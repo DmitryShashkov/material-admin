@@ -13,6 +13,7 @@ import { NotificationsComponent } from '../../notifications/notifications.compon
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MatButtonModule, MatInputModule, MatRippleModule, MatTooltipModule } from '@angular/material';
 import { ManageImagesComponent } from '../../views/manage-images/manage-images.component';
+import {ArticlesListComponent} from "../../views/articles-list/articles-list.component";
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { ManageImagesComponent } from '../../views/manage-images/manage-images.c
         NotificationsComponent,
         UpgradeComponent,
         ManageImagesComponent,
+        ArticlesListComponent,
     ],
 })
 export class AdminLayoutModule {}
