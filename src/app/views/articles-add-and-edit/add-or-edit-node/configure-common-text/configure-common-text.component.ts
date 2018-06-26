@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfigureNodeComponent } from '../../../../classes/ConfigureNodeComponent';
-import { BlogService } from '../../../../services/blog.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CONFIGURE_COMMON_TEXT_FORM_CONFIG } from './configure-common-text.form-config';
 import { FormsContract } from '../../../../contracts/forms.contract';
@@ -17,9 +16,8 @@ export class ConfigureCommonTextComponent extends ConfigureNodeComponent<NodeCom
 
     constructor (
         private formBuilder: FormBuilder,
-        blogService: BlogService,
     ) {
-        super(blogService);
+        super();
         this.nodeForm = this.formBuilder.group(CONFIGURE_COMMON_TEXT_FORM_CONFIG);
     }
 

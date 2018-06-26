@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <app-image-preview
+    <app-image-preview #articlePreview
         [file]="settingsForm.controls[FormsContract.ArticleSettings.PREVIEW_IMAGE].valueChanges | async"
         (onError)="onImagePreviewError($event)">
     </app-image-preview>

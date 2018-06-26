@@ -29,10 +29,18 @@ export class BlogService {
         return this.http.post<UploadImagesResponse>(url, payload);
     }
 
-    public getImageFile (link: string) : Observable<File> {
-        const options = { responseType: 'blob' as 'json' };
-        return this.http.get<File>(link, options)
-            .map((blob: Blob) => new FilesPipe().transform(blob, link));
+    public provideImageFile (image: ImageElement) : Observable<File> {
+        if (image.file) {
+            return Observable.of(image.file);
+        }
+
+        if (image.link) {
+            const options = { responseType: 'blob' as 'json' };
+            return this.http.get<File>(image.link, options)
+                .map((blob: Blob) => new FilesPipe().transform(blob, image.link));
+        }
+
+        return Observable.of(null);
     }
 
     public deleteImage (image: ImageElement) : Observable<void> {

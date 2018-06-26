@@ -1,10 +1,13 @@
 export namespace SubscriptionsContract {
     export const EMIT_DATE_AS_STRING = 'emitDateAsString';
 
-    export namespace ConfigureNode {
-        export namespace ArticleHeader {
-            export const DELETE_PREVIOUS_IMAGE = 'deletePreviousImage';
-            export const TRACK_PREVIOUS_IMAGE = 'trackPreviousImage';
-        }
+    export namespace ConfigureArticle {
+        export const UPDATE_SETTINGS = 'updateSettings';
+    }
+
+    export namespace Images {
+        export const PROVIDE_FILE = 'provideImageFile';
+        export const DELETE_PREVIOUS = 'deletePreviousImage';
+        export const TRACK_PREVIOUS = 'trackPreviousImage';
     }
 }

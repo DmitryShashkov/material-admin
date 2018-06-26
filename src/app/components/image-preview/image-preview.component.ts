@@ -51,4 +51,14 @@ export class ImagePreviewComponent implements OnChanges {
     private previewFile () {
         this.imageSource.next(this.reader.result);
     }
+
+    public forceRedraw (element?: File|string) {
+        if (element instanceof File) {
+            this.file = element;
+        } else if (!!element) {
+            this.link = element;
+        }
+
+        this.ngOnChanges();
+    }
 }

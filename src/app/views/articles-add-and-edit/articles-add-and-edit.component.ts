@@ -7,7 +7,6 @@ import { BlogService } from '../../services/blog.service';
 import { ImageElement } from '../../models/ImageElement';
 import { Observable } from 'rxjs/Observable';
 import { UploadImagesResponse } from '../../services/types/upload-images.response';
-import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerErrorResponse } from '../../services/types/server-error.response';
 import { OpenEditModalDto } from './types/open-edit-modal.dto';
@@ -20,19 +19,25 @@ import 'rxjs/add/observable/never';
 import 'rxjs/add/observable/of';
 import { ArticleSettingsComponent } from './article-settings/article-settings.component';
 import { ArticleSettings } from '../../models/ArticleSettings';
+import { NotificationsService } from '../../services/notifications.service';
+import {CommonComponent} from "../../classes/CommonComponent";
+import {SubscriptionsContract} from "../../contracts/subscriptions.contract";
+import {OpenSettingsModalDto} from "./types/open-settings-modal.dto";
 
 @Component({
     selector: 'app-articles-add-and-edit',
     templateUrl: './articles-add-and-edit.component.html',
     styleUrls: ['./articles-add-and-edit.component.scss'],
 })
-export class ArticlesAddAndEditComponent {
+export class ArticlesAddAndEditComponent extends CommonComponent {
     constructor (
         private dialog: MatDialog,
         private blogService: BlogService,
-        private toastr: ToastrService,
+        private notifier: NotificationsService,
         private confirmation: ConfirmationService,
-    ) { }
+    ) {
+        super();
+    }
 
     public nodes: ArticleNode[] = [];
 
@@ -49,6 +54,12 @@ export class ArticlesAddAndEditComponent {
     private replaceNode (nodeIndex: number, newNode: ArticleNode) : void {
         if (newNode) {
             this.nodes[nodeIndex] = newNode;
+        }
+    }
+
+    private updateSettings (settings: ArticleSettings) : void {
+        if (settings) {
+            this.settings = settings;
         }
     }
 
@@ -115,13 +126,13 @@ export class ArticlesAddAndEditComponent {
 
     private handleImageUploaded (response: UploadImagesResponse) : void {
         const message: string = `Image processed successfully: ${response.link}`;
-        this.toastr.success(message);
+        this.notifier.success(message);
     }
 
     private handleImageUploadError (response: HttpErrorResponse) {
         const serverErrorResponse: ServerErrorResponse = response.error;
         const message: string = serverErrorResponse.message || serverErrorResponse.error;
-        this.toastr.error(message);
+        this.notifier.error(message);
     }
 
     private performImagesDeleting (images: ImageElement[]) : Observable<void> {
@@ -141,6 +152,10 @@ export class ArticlesAddAndEditComponent {
             images = images.concat(ArticlesAddAndEditComponent.extractImages(node));
         }
 
+        if (this.settings) {
+            images.push(this.settings.previewImage);
+        }
+
         const notUploadedImages: ImageElement[] = images.filter((image: ImageElement) => !!image.file);
 
         return !!notUploadedImages.length;
@@ -149,21 +164,29 @@ export class ArticlesAddAndEditComponent {
     public uploadImages () : void {
         const observables: Observable<UploadImagesResponse>[] = [];
 
+        const produceObservable: (image: ImageElement) => Observable<UploadImagesResponse> = (image: ImageElement) => {
+            return this.blogService.uploadImage(image)
+                .do((response: UploadImagesResponse) => {
+                    image.setLinkOnly(response.link);
+                });
+        };
+
         for (const node of this.nodes) {
             const images: ImageElement[] = ArticlesAddAndEditComponent.extractImages(node)
                 .filter((image: ImageElement) => !!image.file);
 
             for (const image of images) {
-                observables.push(this.blogService.uploadImage(image)
-                    .do((response: UploadImagesResponse) => {
-                        image.setLinkOnly(response.link);
-                    }));
+                observables.push(produceObservable(image));
             }
+        }
+
+        if (this.settings && this.settings.previewImage.file) {
+            observables.push(produceObservable(this.settings.previewImage));
         }
 
         if (!observables.length) {
             const message: string = 'No images to upload';
-            this.toastr.info(message);
+            this.notifier.info(message);
             return;
         }
 
@@ -174,23 +197,30 @@ export class ArticlesAddAndEditComponent {
     }
 
     public openSettingsModal () : void {
+        const data: OpenSettingsModalDto = { currentSettings: this.settings };
         const options: MatDialogConfig = {
+            data,
             width: '640px',
         };
         const dialogRef: MatDialogRef<ArticleSettingsComponent>
             = this.dialog.open(ArticleSettingsComponent, options);
 
-        const dialogSubscription: Subscription = dialogRef.afterClosed()
-            .subscribe(() => {
-                console.log('set up');
-                dialogSubscription.unsubscribe();
-            });
+        this.updateSubscription(
+            SubscriptionsContract.ConfigureArticle.UPDATE_SETTINGS,
+            dialogRef.afterClosed().subscribe(this.updateSettings.bind(this)),
+        );
     }
 
     public publish () : void {
+        if (!this.settings) {
+            const message: string = 'Article settings are not configured';
+            this.notifier.warning(message);
+            return;
+        }
+
         if (this.hasNotLoadedImages()) {
             const message: string = 'You have images that are not uploaded to server yet - upload them first';
-            this.toastr.warning(message);
+            this.notifier.warning(message);
             return;
         }
 

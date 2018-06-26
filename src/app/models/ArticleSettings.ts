@@ -18,7 +18,7 @@ export class ArticleSettings extends BaseModel {
     public displayUrl: string;
 
     @ModelProperty()
-    public lastBreadCrumb: string;
+    public lastBreadcrumb: string;
 
     @ModelProperty()
     public publishingDate: Date;
