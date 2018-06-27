@@ -13,6 +13,8 @@ import {CollectionDto} from "./types/collection.dto";
 import {HttpParamsOptions} from "@angular/common/http/src/params";
 import {UsersService} from "./users.service";
 import {CollectionResponse} from "../types/collection.response";
+import {ArticleDetailsResponse} from "./types/article-details.response";
+import {ArticleNodesPipe} from "../pipes/article-nodes.pipe";
 
 @Injectable()
 export class BlogService {
@@ -84,5 +86,15 @@ export class BlogService {
                     total: collection.total,
                 };
             });
+    }
+
+    public getSingleArticle (id: number) : Observable<ArticleDetailsResponse> {
+        const url: string = `/blog-articles/${id}`;
+
+        return this.http.get<ArticleDetailsResponse>(url)
+            .map((response: ArticleDetailsResponse) => ({
+                instance: new ArticleInstance(response.instance),
+                nodes: response.nodes.map((data: any) => new ArticleNodesPipe().transform(data)),
+            }));
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ArticleNode } from '../../models/ArticleNode';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { AddOrEditNodeComponent } from './add-or-edit-node/add-or-edit-node.component';
@@ -17,38 +17,58 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/never';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/empty';
 import { ArticleSettingsComponent } from './article-settings/article-settings.component';
 import { ArticleSettings } from '../../models/ArticleSettings';
 import { NotificationsService } from '../../services/notifications.service';
 import {CommonComponent} from "../../classes/CommonComponent";
 import {SubscriptionsContract} from "../../contracts/subscriptions.contract";
 import {OpenSettingsModalDto} from "./types/open-settings-modal.dto";
+import {ActivatedRoute, Params} from "@angular/router";
+import {RoutingContract} from "../../contracts/routing.contract";
+import {ArticleInstance} from "../../models/article-instance.model";
+import {ArticleDetailsResponse} from "../../services/types/article-details.response";
 
 @Component({
     selector: 'app-articles-add-and-edit',
     templateUrl: './articles-add-and-edit.component.html',
     styleUrls: ['./articles-add-and-edit.component.scss'],
 })
-export class ArticlesAddAndEditComponent extends CommonComponent {
+export class ArticlesAddAndEditComponent extends CommonComponent implements OnInit {
+    public nodes: ArticleNode[] = [];
+
+    private settings: ArticleSettings;
+
     constructor (
         private dialog: MatDialog,
         private blogService: BlogService,
         private notifier: NotificationsService,
         private confirmation: ConfirmationService,
+        private route: ActivatedRoute,
     ) {
         super();
     }
 
-    public nodes: ArticleNode[] = [];
+    public ngOnInit () : void {
+        this.updateSubscription(
+            SubscriptionsContract.CreateArticle.CHECK_EDITING,
+            this.route.params.flatMap((params: Params) => {
+                const articleId: number = parseInt(params[RoutingContract.AdminLayout.PARAM_ARTICLE_ID]);
 
-    private settings: ArticleSettings;
+                return (isNaN(articleId))
+                    ? Observable.empty()
+                    : this.blogService.getSingleArticle(articleId);
+            }).subscribe((response: ArticleDetailsResponse) => {
+                this.settings = ArticleSettings.fromArticleInstance(response.instance);
+                this.nodes = response.nodes;
+            }),
+        );
+    }
 
     private addNode (node: ArticleNode) : void {
         if (node) {
             this.nodes.push(node);
         }
-
-        console.log(this.nodes);
     }
 
     private replaceNode (nodeIndex: number, newNode: ArticleNode) : void {
@@ -82,11 +102,10 @@ export class ArticlesAddAndEditComponent extends CommonComponent {
         const dialogRef: MatDialogRef<AddOrEditNodeComponent>
             = this.dialog.open(AddOrEditNodeComponent, options);
 
-        const dialogSubscription: Subscription = dialogRef.afterClosed()
-            .subscribe((newNode: ArticleNode) => {
-                this.addNode(newNode);
-                dialogSubscription.unsubscribe();
-            });
+        this.updateSubscription(
+            SubscriptionsContract.CreateArticle.ADD_NODE_MODAL,
+            dialogRef.afterClosed().subscribe(this.addNode.bind(this)),
+        );
     }
 
     public openEditNodeModal (nodeIndex: number) : void {
@@ -225,12 +244,5 @@ export class ArticlesAddAndEditComponent extends CommonComponent {
         }
 
         this.blogService.publish(this.nodes, this.settings).subscribe(console.log);
-
-        // console.log();
-        // this.blogService.uploadImages(images).subscribe(console.log, console.log);
-
-        // this.blogService.publish(this.nodes).subscribe((res) => {
-        //     console.log(res);
-        // });
     }
 }

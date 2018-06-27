@@ -5,6 +5,11 @@ export namespace SubscriptionsContract {
         export const UPDATE_DATA_PORTION = 'updateDataPortion';
     }
 
+    export namespace CreateArticle {
+        export const CHECK_EDITING = 'checkEditing';
+        export const ADD_NODE_MODAL = 'addNodeModal';
+    }
+
     export namespace ConfigureArticle {
         export const UPDATE_SETTINGS = 'updateSettings';
     }

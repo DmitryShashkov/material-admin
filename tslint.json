@@ -14,7 +14,9 @@
       }
     ],
     "ter-indent": [
-      true, 4
+      true, 4, {
+        "SwitchCase": 1
+      }
     ],
     "space-before-function-paren": [
       true,
@@ -23,6 +25,7 @@
     "ter-arrow-parens": [
       true,
       "always"
-    ]
+    ],
+    "radix": false
   }
 }
