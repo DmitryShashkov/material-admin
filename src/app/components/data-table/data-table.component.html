@@ -1,1 +1,42 @@
-data table
+<div class="card">
+    <div class="card-header card-header-danger">
+        <h4 class="card-title">{{ tableName }}</h4>
+        <p class="card-category">{{ tableDescription }}</p>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="text-primary">
+                <tr>
+                    <th *ngFor="let field of fieldsList">
+                        {{ field.columnName || field.entityFieldName }}
+                    </th>
+                    <th *ngIf="!!actionsList?.length"> Actions </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let entry of currentDataPortion | async">
+                    <td *ngFor="let field of fieldsList">
+                        {{ entry[field.entityFieldName] }}
+                    </td>
+                    <td *ngIf="!!actionsList?.length">
+                        <button *ngFor="let action of actionsList"
+                            class="btn btn-white btn-just-icon" mat-raised-button
+                            [matTooltip]="action.title"
+                            (click)="action.handler(entry)">
+                            <i class="material-icons">
+                                {{ action.icon || 'input' }}
+                            </i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <mat-paginator [length]="totalItemsCount | async"
+        [pageSize]="itemsPerPage | async"
+        [pageSizeOptions]="ITEMS_PER_PAGE_OPTIONS"
+        (page)="handlePaginationUpdate($event)">
+    </mat-paginator>
+</div>

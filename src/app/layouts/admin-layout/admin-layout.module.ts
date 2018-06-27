@@ -14,6 +14,7 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MatButtonModule, MatInputModule, MatRippleModule, MatTooltipModule } from '@angular/material';
 import { ManageImagesComponent } from '../../views/manage-images/manage-images.component';
 import {ArticlesListComponent} from "../../views/articles-list/articles-list.component";
+import {DataTableModule} from "../../components/data-table/data-table.module";
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import {ArticlesListComponent} from "../../views/articles-list/articles-list.com
         MatRippleModule,
         MatInputModule,
         MatTooltipModule,
+        DataTableModule,
     ],
     declarations: [
         DashboardComponent,

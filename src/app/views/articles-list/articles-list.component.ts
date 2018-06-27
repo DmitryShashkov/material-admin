@@ -6,6 +6,10 @@ import {CollectionDto} from "../../services/types/collection.dto";
 import {ArticleInstance} from "../../models/article-instance.model";
 import {CollectionResponse} from "../../types/collection.response";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {DataTableField} from "../../components/data-table/types/data-table-field";
+import {DataTableAction} from "../../components/data-table/types/data-table-action";
+import {Router} from "@angular/router";
+import {RoutingContract} from "../../contracts/routing.contract";
 
 @Component({
     selector: 'app-articles-list',
@@ -13,35 +17,33 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
     styleUrls: ['./articles-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArticlesListComponent extends CommonComponent implements OnInit {
-    private readonly PAGE_SIZE: number = 10;
-    public currentPage: number = 0;
+export class ArticlesListComponent extends CommonComponent {
+    public articlesGetter = this.blogService.getMyArticles.bind(this.blogService);
 
-    public currentArticlesPortion: BehaviorSubject<ArticleInstance[]>
-        = new BehaviorSubject<ArticleInstance[]>(([]));
+    public articlesFieldsList: DataTableField[] = [
+        {
+            entityFieldName: 'title',
+            columnName: 'Title',
+        },
+    ];
+
+    public articlesActionsList: DataTableAction<ArticleInstance>[] = [
+        {
+            title: 'Edit',
+            handler: this.navigateToArticleEdit.bind(this),
+            icon: 'edit',
+        },
+    ];
 
     constructor (
         private blogService: BlogService,
+        private router: Router,
     ) {
         super();
     }
 
-    public ngOnInit () {
-        this.loadPortionOfArticles();
-    }
-
-    public loadPortionOfArticles () {
-        const limit: number = this.PAGE_SIZE;
-        const offset: number = this.currentPage * this.PAGE_SIZE;
-        const options: CollectionDto = { limit, offset };
-
-        this.updateSubscription(
-            SubscriptionsContract.ArticlesList.GET_LIST,
-            this.blogService.getMyArticles(options).subscribe(this.savePortion.bind(this)),
-        );
-    }
-
-    public savePortion (response: CollectionResponse<ArticleInstance>) : void {
-        this.currentArticlesPortion.next(response.items);
+    private async navigateToArticleEdit (article: ArticleInstance) : Promise<void> {
+        const commands = [`/${RoutingContract.AdminLayout.EDIT_ARTICLE}`, article.id];
+        await this.router.navigate(commands);
     }
 }

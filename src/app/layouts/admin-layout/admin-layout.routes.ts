@@ -57,4 +57,8 @@ export const ADMIN_LAYOUT_ROUTES: Routes = [
         path: RoutingContract.AdminLayout.ARTICLES_LIST,
         component: ArticlesListComponent,
     },
+    {
+        path: `${RoutingContract.AdminLayout.EDIT_ARTICLE}/:${RoutingContract.AdminLayout.PARAM_ARTICLE_ID}`,
+        loadChildren: '../../views/articles-add-and-edit/articles-add-and-edit.module#ArticlesAddAndEditModule',
+    },
 ];
