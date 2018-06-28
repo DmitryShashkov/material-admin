@@ -28,6 +28,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {RoutingContract} from "../../contracts/routing.contract";
 import {ArticleInstance} from "../../models/article-instance.model";
 import {ArticleDetailsResponse} from "../../services/types/article-details.response";
+import {FilesService} from "../../services/files.service";
 
 @Component({
     selector: 'app-articles-add-and-edit',
@@ -42,6 +43,7 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
     constructor (
         private dialog: MatDialog,
         private blogService: BlogService,
+        private filesService: FilesService,
         private notifier: NotificationsService,
         private confirmation: ConfirmationService,
         private route: ActivatedRoute,
@@ -157,7 +159,7 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
     private performImagesDeleting (images: ImageElement[]) : Observable<void> {
         const observables: Observable<void>[] = images
             .filter((image) => !!image.link)
-            .map((image) => this.blogService.deleteImage(image));
+            .map((image) => this.filesService.deleteImage(image));
 
         return (observables.length)
             ? Observable.merge(...observables)
@@ -184,7 +186,7 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
         const observables: Observable<UploadImagesResponse>[] = [];
 
         const produceObservable: (image: ImageElement) => Observable<UploadImagesResponse> = (image: ImageElement) => {
-            return this.blogService.uploadImage(image)
+            return this.filesService.uploadImage(image)
                 .do((response: UploadImagesResponse) => {
                     image.setLinkOnly(response.link);
                 });

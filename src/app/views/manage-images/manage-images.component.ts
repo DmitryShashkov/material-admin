@@ -15,7 +15,7 @@ export class ManageImagesComponent {
     ) {}
 
     public upload (arg) {
-        const input: HTMLInputElement = this.fileInput.nativeElement;
-        this.filesService.uploadImage(input.files[0]).subscribe();
+        // const input: HTMLInputElement = this.fileInput.nativeElement;
+        // this.filesService.uploadImage(input.files[0]).subscribe();
     }
 }

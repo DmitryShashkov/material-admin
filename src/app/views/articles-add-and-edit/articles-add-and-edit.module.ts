@@ -14,6 +14,7 @@ import { NodeCardComponent } from './node-card/node-card.component';
 import { DndModule } from 'ng2-dnd';
 import { ConfigureCommonTextComponent } from './add-or-edit-node/configure-common-text/configure-common-text.component';
 import { ArticleSettingsComponent } from './article-settings/article-settings.component';
+import { ConfigureTagsComponent } from "./article-settings/configure-tags/configure-tags.component";
 
 @NgModule({
     imports: [
@@ -40,6 +41,7 @@ import { ArticleSettingsComponent } from './article-settings/article-settings.co
         NodeCardComponent,
         ConfigureArticleHeaderComponent,
         ConfigureCommonTextComponent,
+        ConfigureTagsComponent,
     ],
     entryComponents: [
         ArticleSettingsComponent,

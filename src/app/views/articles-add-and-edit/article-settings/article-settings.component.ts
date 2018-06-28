@@ -1,29 +1,19 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Inject,
-    OnInit,
-    ViewChild
-} from '@angular/core';
-import {ArticleNodeTypes} from "../../../enums/article-node-types.enum";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {AddOrEditNodeComponent} from "../add-or-edit-node/add-or-edit-node.component";
-import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {ARTICLE_SETTINGS_FORM_CONFIG} from "./article-settings.form-config";
-import {FormsContract} from "../../../contracts/forms.contract";
-import {ToastrService} from "ngx-toastr";
-import {NotificationsService} from "../../../services/notifications.service";
-import {ArticleSettings} from "../../../models/ArticleSettings";
-import {CommonComponent} from "../../../classes/CommonComponent";
-import {emitDateAsString} from "../../../utils/emit-date-as-string";
-import {SubscriptionsContract} from "../../../contracts/subscriptions.contract";
-import {OpenSettingsModalDto} from "../types/open-settings-modal.dto";
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { AddOrEditNodeComponent } from '../add-or-edit-node/add-or-edit-node.component';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { ARTICLE_SETTINGS_FORM_CONFIG } from './article-settings.form-config';
+import { FormsContract } from '../../../contracts/forms.contract';
+import { NotificationsService } from '../../../services/notifications.service';
+import { ArticleSettings } from '../../../models/ArticleSettings';
+import { CommonComponent } from '../../../classes/CommonComponent';
+import { emitDateAsString } from '../../../utils/emit-date-as-string';
+import { SubscriptionsContract } from '../../../contracts/subscriptions.contract';
+import { OpenSettingsModalDto } from '../types/open-settings-modal.dto';
 import { omit } from 'lodash';
-import {BlogService} from "../../../services/blog.service";
-import {ImagePreviewComponent} from "../../../components/image-preview/image-preview.component";
-import {ImageElement} from "../../../models/ImageElement";
+import { ImagePreviewComponent } from '../../../components/image-preview/image-preview.component';
+import { ImageElement } from '../../../models/ImageElement';
+import { FilesService } from '../../../services/files.service';
 
 @Component({
     selector: 'app-article-settings',
@@ -43,7 +33,7 @@ export class ArticleSettingsComponent extends CommonComponent implements AfterVi
         public dialogRef: MatDialogRef<AddOrEditNodeComponent>,
         private formBuilder: FormBuilder,
         private notifier: NotificationsService,
-        private blogService: BlogService,
+        private filesService: FilesService,
         @Inject(MAT_DIALOG_DATA) public injectedData: OpenSettingsModalDto,
     ) {
         super();
@@ -72,7 +62,7 @@ export class ArticleSettingsComponent extends CommonComponent implements AfterVi
         const image: ImageElement = this.injectedData.currentSettings.previewImage;
         this.updateSubscription(
             SubscriptionsContract.Images.PROVIDE_FILE,
-            this.blogService.provideImageFile(image).subscribe(this.updatePreviewImage.bind(this)),
+            this.filesService.provideImageFile(image).subscribe(this.updatePreviewImage.bind(this)),
         );
     }
 
@@ -98,13 +88,17 @@ export class ArticleSettingsComponent extends CommonComponent implements AfterVi
         if (image.link) {
             this.updateSubscription(
                 SubscriptionsContract.Images.DELETE_PREVIOUS,
-                this.blogService.deleteImage(image).subscribe(),
+                this.filesService.deleteImage(image).subscribe(),
             );
         }
     }
 
     public onImagePreviewError (error: Error) : void {
         this.notifier.error(error.message);
+    }
+
+    public updateTags (tags: number[]) : void {
+        this.settingsForm.controls[FormsContract.ArticleSettings.TAGS].setValue(tags);
     }
 
     public confirm () : void {

@@ -12,6 +12,7 @@ export namespace SubscriptionsContract {
 
     export namespace ConfigureArticle {
         export const UPDATE_SETTINGS = 'updateSettings';
+        export const GET_TAGS = 'getTags';
     }
 
     export namespace Images {

@@ -1,3 +1,10 @@
 .CodeMirror {
     height: 300px;
 }
+
+.mat-checkbox-disabled .mat-checkbox-frame {
+    border-color: #ff867d !important;
+}
+.mat-checkbox-disabled .mat-checkbox-label {
+    color: #ff867d;
+}

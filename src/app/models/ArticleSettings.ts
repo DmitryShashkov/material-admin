@@ -1,6 +1,7 @@
 import { BaseModel, ModelProperty } from 'ts-json-mapper';
 import { ImageElement } from './ImageElement';
 import {ArticleInstance} from "./article-instance.model";
+import {TagInstance} from "./tag-instance.model";
 
 export class ArticleSettings extends BaseModel {
     @ModelProperty()
@@ -28,6 +29,9 @@ export class ArticleSettings extends BaseModel {
     public previewImage: ImageElement;
 
     @ModelProperty()
+    public tags: number[];
+
+    @ModelProperty()
     public isPopular: boolean;
 
     constructor (options: any) {
@@ -46,6 +50,9 @@ export class ArticleSettings extends BaseModel {
             previewImage: {
                 link: instance.previewImage,
             },
+            tags: (instance.tags)
+                ? instance.tags.map((tag: TagInstance) => tag.id)
+                : [],
             isPopular: instance.isPopular,
         };
 

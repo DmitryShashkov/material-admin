@@ -1,0 +1,11 @@
+<div class="tags-container">
+    <ng-container *ngFor="let tag of tagsList | async">
+        <mat-checkbox
+            [(ngModel)]="tagsEditingEntries[tag.alias].checked"
+            [disabled]="tagsEditingEntries[tag.alias].disabled"
+            (change)="updateTagsAvailability(tag.alias, true)">
+            {{ tag.title }}
+        </mat-checkbox>
+    </ng-container>
+</div>
+

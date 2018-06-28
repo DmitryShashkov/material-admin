@@ -32,6 +32,9 @@ export const ARTICLE_SETTINGS_FORM_CONFIG = {
     [FormsContract.ArticleSettings.PREVIEW_IMAGE]: [
         null, [Validators.required, CustomValidators.imageSize, CustomValidators.imageType],
     ],
+    [FormsContract.ArticleSettings.TAGS]: [
+        [], [Validators.required, Validators.minLength((1))]
+    ],
     [FormsContract.ArticleSettings.IS_POPULAR]: [
         false, [],
     ],

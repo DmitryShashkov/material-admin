@@ -15,6 +15,7 @@ import {UsersService} from "./users.service";
 import {CollectionResponse} from "../types/collection.response";
 import {ArticleDetailsResponse} from "./types/article-details.response";
 import {ArticleNodesPipe} from "../pipes/article-nodes.pipe";
+import {TagInstance} from "../models/tag-instance.model";
 
 @Injectable()
 export class BlogService {
@@ -22,45 +23,6 @@ export class BlogService {
         private http: HttpClient,
         private usersService: UsersService,
     ) { }
-
-    public uploadImage (image: ImageElement) : Observable<UploadImagesResponse> {
-        const url: string = '/image-uploads';
-        const imageFieldName: string = 'image';
-        const replaceFieldName: string = 'replaceOf';
-
-        const payload: FormData = new FormData();
-        payload.append(imageFieldName, image.file);
-
-        if (image.link) {
-            payload.append(replaceFieldName, image.link);
-        }
-
-        return this.http.post<UploadImagesResponse>(url, payload);
-    }
-
-    public provideImageFile (image: ImageElement) : Observable<File> {
-        if (image.file) {
-            return Observable.of(image.file);
-        }
-
-        if (image.link) {
-            const options = { responseType: 'blob' as 'json' };
-            return this.http.get<File>(image.link, options)
-                .map((blob: Blob) => new FilesPipe().transform(blob, image.link));
-        }
-
-        return Observable.of(null);
-    }
-
-    public deleteImage (image: ImageElement) : Observable<void> {
-        const url: string = '/image-uploads';
-        const linkParam: string = 'link';
-
-        const params: HttpParams = new HttpParams().append(linkParam, image.link);
-
-        const options = { params };
-        return this.http.delete<void>(url, options);
-    }
 
     public publish (nodes: ArticleNode[], settings: ArticleSettings) : Observable<ArticleInstance> {
         const url: string = '/blog-articles';
@@ -95,6 +57,16 @@ export class BlogService {
             .map((response: ArticleDetailsResponse) => ({
                 instance: new ArticleInstance(response.instance),
                 nodes: response.nodes.map((data: any) => new ArticleNodesPipe().transform(data)),
+            }));
+    }
+
+    public getTags () : Observable<CollectionResponse<TagInstance>> {
+        const url: string = '/blog-tags';
+
+        return this.http.get<CollectionResponse<TagInstance>>(url)
+            .map((response: CollectionResponse<TagInstance>) => ({
+                items: response.items.map((data: any) => new TagInstance(data)),
+                total: response.total,
             }));
     }
 }

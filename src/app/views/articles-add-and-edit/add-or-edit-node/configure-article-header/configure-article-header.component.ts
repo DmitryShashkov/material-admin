@@ -4,11 +4,11 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { FormsContract } from '../../../../contracts/forms.contract';
 import { CONFIGURE_ARTICLE_HEADER_FORM_CONFIG } from './configure-article-header.form-config';
 import { MAX_ALLOWED_IMAGE_SIZE } from '../../../../app.constants';
-import { BlogService } from '../../../../services/blog.service';
 import { ConfigureNodeComponent } from '../../../../classes/ConfigureNodeComponent';
 import { ImageElement } from '../../../../models/ImageElement';
 import { SubscriptionsContract } from '../../../../contracts/subscriptions.contract';
 import { NotificationsService } from '../../../../services/notifications.service';
+import {FilesService} from "../../../../services/files.service";
 
 @Component({
     selector: 'app-configure-article-header',
@@ -24,7 +24,7 @@ export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<Node
     constructor (
         private formBuilder: FormBuilder,
         private notifier: NotificationsService,
-        private blogService: BlogService,
+        private filesService: FilesService,
     ) {
         super();
         this.nodeForm = formBuilder.group(CONFIGURE_ARTICLE_HEADER_FORM_CONFIG);
@@ -36,7 +36,7 @@ export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<Node
 
             this.updateSubscription(
                 SubscriptionsContract.Images.PROVIDE_FILE,
-                this.blogService.provideImageFile(this.nodeToEdit.backgroundImage)
+                this.filesService.provideImageFile(this.nodeToEdit.backgroundImage)
                     .subscribe(this.processCurrentImage.bind(this)),
             );
         }
@@ -65,7 +65,7 @@ export class ConfigureArticleHeaderComponent extends ConfigureNodeComponent<Node
             if (image.link) {
                 this.updateSubscription(
                     SubscriptionsContract.Images.DELETE_PREVIOUS,
-                    this.blogService.deleteImage(image).subscribe(),
+                    this.filesService.deleteImage(image).subscribe(),
                 );
             }
         }

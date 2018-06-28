@@ -80,6 +80,11 @@
         (onError)="onImagePreviewError($event)">
     </app-image-preview>
 
+    <app-configure-tags
+        [initiallySelected]="settingsForm.controls[FormsContract.ArticleSettings.TAGS].value"
+        (onChanged)="updateTags($event)">
+    </app-configure-tags>
+
     <mat-checkbox [formControl]="settingsForm.controls[FormsContract.ArticleSettings.IS_POPULAR]">
         Mark article as popular
     </mat-checkbox>

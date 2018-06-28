@@ -13,6 +13,7 @@ export namespace FormsContract {
         export const LAST_BREADCRUMB = 'lastBreadcrumb';
         export const PUBLISHING_DATE = 'publishingDate';
         export const PREVIEW_IMAGE = 'previewImage';
+        export const TAGS = 'tags';
         export const IS_POPULAR = 'isPopular';
     }
 
