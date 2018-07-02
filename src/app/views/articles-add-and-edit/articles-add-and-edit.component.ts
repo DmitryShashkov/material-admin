@@ -40,6 +40,10 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
 
     private settings: ArticleSettings;
 
+    public isEditing: boolean;
+
+    private editedArticleId: number;
+
     constructor (
         private dialog: MatDialog,
         private blogService: BlogService,
@@ -55,12 +59,14 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
         this.updateSubscription(
             SubscriptionsContract.CreateArticle.CHECK_EDITING,
             this.route.params.flatMap((params: Params) => {
-                const articleId: number = parseInt(params[RoutingContract.AdminLayout.PARAM_ARTICLE_ID]);
+                this.editedArticleId = parseInt(params[RoutingContract.AdminLayout.PARAM_ARTICLE_ID]);
 
-                return (isNaN(articleId))
+                return (isNaN(this.editedArticleId))
                     ? Observable.empty()
-                    : this.blogService.getSingleArticle(articleId);
+                    : this.blogService.getSingleArticle(this.editedArticleId);
             }).subscribe((response: ArticleDetailsResponse) => {
+                this.isEditing = true;
+
                 this.settings = ArticleSettings.fromArticleInstance(response.instance);
                 this.nodes = response.nodes;
             }),
@@ -232,7 +238,7 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
         );
     }
 
-    public publish () : void {
+    public publishOrEdit () : void {
         if (!this.settings) {
             const message: string = 'Article settings are not configured';
             this.notifier.warning(message);
@@ -245,6 +251,10 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
             return;
         }
 
-        this.blogService.publish(this.nodes, this.settings).subscribe(console.log);
+        if (this.isEditing) {
+            this.blogService.updateArticle(this.editedArticleId, this.nodes, this.settings).subscribe(console.log);
+        } else {
+            this.blogService.publish(this.nodes, this.settings).subscribe(console.log);
+        }
     }
 }

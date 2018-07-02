@@ -23,7 +23,9 @@
                 <button (click)="openAddNodeModal()">Add node</button>
                 <button (click)="uploadImages()">Upload images</button>
                 <button (click)="openSettingsModal()">Settings</button>
-                <button (click)="publish()">Publish</button>
+                <button (click)="publishOrEdit()">
+                    {{ isEditing ? 'Edit' : 'Publish' }}
+                </button>
             </div>
         </div>
     </div>

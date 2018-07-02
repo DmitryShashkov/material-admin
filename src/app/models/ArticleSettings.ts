@@ -45,7 +45,7 @@ export class ArticleSettings extends BaseModel {
             metaTitle: instance.metaTitle,
             metaDescription: instance.metaDescription,
             displayUrl: instance.url,
-            lastBreadcrumb: '', // ????????
+            lastBreadcrumb: instance.lastBreadcrumb,
             publishingDate: instance.createdAt.toISOString(),
             previewImage: {
                 link: instance.previewImage,

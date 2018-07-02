@@ -32,6 +32,18 @@ export class BlogService {
             .map((data: any) => new ArticleInstance(data));
     }
 
+    public updateArticle (
+        articleId: number,
+        nodes: ArticleNode[],
+        settings: ArticleSettings,
+    ) : Observable<ArticleInstance> {
+        const url: string = `/blog-articles/${articleId}`;
+        const payload = { nodes, settings };
+
+        return this.http.put<ArticleInstance>(url, payload)
+            .map((data: any) => new ArticleInstance(data));
+    }
+
     public getMyArticles (dto: CollectionDto) : Observable<CollectionResponse<ArticleInstance>> {
         const url: string = '/blog-articles';
         const authorIdParam: string = 'authorId';

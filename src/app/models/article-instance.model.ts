@@ -25,6 +25,9 @@ export class ArticleInstance extends BaseModel {
     public isPopular: boolean;
 
     @ModelProperty()
+    lastBreadcrumb: string;
+
+    @ModelProperty()
     public metaDescription: string;
 
     @ModelProperty()
