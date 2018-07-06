@@ -1,0 +1,35 @@
+<h5>
+    Section title configuration:
+</h5>
+
+<form [formGroup]="nodeForm">
+    <mat-form-field>
+        <input matInput placeholder="Title"
+            [formControl]="nodeForm.controls[FormsContract.NodeSectionTitle.TEXT]"
+        />
+    </mat-form-field>
+
+    <mat-checkbox
+        [formControl]="nodeForm.controls[FormsContract.NodeSectionTitle.SHOW_IN_TABLE_OF_CONTENTS]">
+        Show this title in table of contents
+    </mat-checkbox>
+
+    <mat-form-field>
+        <input matInput placeholder="Text in table of contents"
+            [formControl]="nodeForm.controls[FormsContract.NodeSectionTitle.TEXT_IN_TABLE_OF_CONTENTS]"
+        />
+    </mat-form-field>
+
+    <mat-radio-group [formControl]="nodeForm.controls[FormsContract.NodeSectionTitle.HEADER_LEVEL]">
+        <mat-radio-button [value]="HeaderLevels.H2">H2</mat-radio-button>
+        <mat-radio-button [value]="HeaderLevels.H3">H3</mat-radio-button>
+    </mat-radio-group>
+</form>
+
+<button class="btn btn-primary btn-block" type="button" mat-button
+    (click)="submit()" [ngSwitch]="!!nodeToEdit"
+    [disabled]="nodeForm.invalid">
+    <ng-container *ngSwitchCase="true">Edit</ng-container>
+    <ng-container *ngSwitchCase="false">Add</ng-container>
+    section title
+</button>

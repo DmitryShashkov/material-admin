@@ -1,0 +1,62 @@
+<h5>
+    Image node configuration:
+</h5>
+<form [formGroup]="nodeForm">
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Alt text"
+                    [formControl]="nodeForm?.controls[FormsContract.NodeImage.ALT_TEXT]"
+                />
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Title"
+                    [formControl]="nodeForm.controls[FormsContract.NodeImage.TITLE]"
+                />
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput placeholder="Link"
+                    [formControl]="nodeForm?.controls[FormsContract.NodeImage.LINK]"
+                />
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-outline-secondary btn-block" type="button" mat-button
+                (click)="imgFileInput.click()">
+                Image
+            </button>
+            <input hidden type="file" #imgFileInput
+                [formControl]="nodeForm.controls[FormsContract.NodeImage.IMAGE]"
+            />
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-6">
+        <app-mde-editor
+            [initialValue]="nodeToEdit?.annotation"
+            (onValueChanged)="onEditorValueChanged($event)">
+        </app-mde-editor>
+    </div>
+    <div class="col-md-6">
+        <app-image-preview
+            [file]="nodeForm.controls[FormsContract.NodeImage.IMAGE].value"
+            (onError)="onImagePreviewError($event)">
+        </app-image-preview>
+
+        <button class="btn btn-primary btn-block" type="button" mat-button
+            [disabled]="nodeForm.invalid"
+            (click)="submit()" [ngSwitch]="!!nodeToEdit">
+            <ng-container *ngSwitchCase="true">Edit</ng-container>
+            <ng-container *ngSwitchCase="false">Add</ng-container>
+            image node
+        </button>
+    </div>
+</div>

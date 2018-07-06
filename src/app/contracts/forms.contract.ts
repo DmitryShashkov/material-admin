@@ -22,8 +22,23 @@ export namespace FormsContract {
         export const BACKGROUND_IMAGE = 'backgroundImage';
     }
 
+    export namespace NodeSectionTitle {
+        export const TEXT = 'text';
+        export const SHOW_IN_TABLE_OF_CONTENTS = 'showInTableOfContents';
+        export const TEXT_IN_TABLE_OF_CONTENTS = 'textInTableOfContents';
+        export const HEADER_LEVEL = 'headerLevel';
+    }
+
     export namespace NodeCommonText {
         export const TEXT = 'text';
+    }
+
+    export namespace NodeImage {
+        export const ALT_TEXT = 'altText';
+        export const TITLE = 'title';
+        export const LINK = 'link';
+        export const IMAGE = 'image';
+        export const ANNOTATION = 'annotation';
     }
 
     export namespace Errors {

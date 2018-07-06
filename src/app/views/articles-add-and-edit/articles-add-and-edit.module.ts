@@ -3,7 +3,16 @@ import { ArticlesAddAndEditComponent } from './articles-add-and-edit.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ARTICLES_ADD_AND_EDIT_ROUTES } from './articles-add-and-edit.routes';
-import { MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule
+} from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddOrEditNodeComponent } from './add-or-edit-node/add-or-edit-node.component';
 import { ConfigureArticleHeaderComponent } from './add-or-edit-node/configure-article-header/configure-article-header.component';
@@ -14,7 +23,9 @@ import { NodeCardComponent } from './node-card/node-card.component';
 import { DndModule } from 'ng2-dnd';
 import { ConfigureCommonTextComponent } from './add-or-edit-node/configure-common-text/configure-common-text.component';
 import { ArticleSettingsComponent } from './article-settings/article-settings.component';
-import { ConfigureTagsComponent } from "./article-settings/configure-tags/configure-tags.component";
+import { ConfigureTagsComponent } from './article-settings/configure-tags/configure-tags.component';
+import { ConfigureImageComponent } from './add-or-edit-node/configure-image/configure-image.component';
+import { ConfigureSectionTitleComponent } from './add-or-edit-node/configure-section-title/configure-section-title.component';
 
 @NgModule({
     imports: [
@@ -26,6 +37,7 @@ import { ConfigureTagsComponent } from "./article-settings/configure-tags/config
         MatSelectModule,
         MatCheckboxModule,
         MatDatepickerModule,
+        MatRadioModule,
         DndModule.forRoot(),
         FormsModule,
         ReactiveFormsModule,
@@ -40,7 +52,9 @@ import { ConfigureTagsComponent } from "./article-settings/configure-tags/config
         AddOrEditNodeComponent,
         NodeCardComponent,
         ConfigureArticleHeaderComponent,
+        ConfigureSectionTitleComponent,
         ConfigureCommonTextComponent,
+        ConfigureImageComponent,
         ConfigureTagsComponent,
     ],
     entryComponents: [

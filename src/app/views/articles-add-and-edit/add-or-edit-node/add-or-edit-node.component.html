@@ -25,4 +25,14 @@
         [nodeToEdit]="nodeToEdit"
         (onSubmit)="onNodeSubmitted($event)">
     </app-configure-common-text>
+
+    <app-configure-image *ngSwitchCase="NODE_TYPES.IMAGE"
+        [nodeToEdit]="nodeToEdit"
+        (onSubmit)="onNodeSubmitted($event)">
+    </app-configure-image>
+
+    <app-configure-section-title *ngSwitchCase="NODE_TYPES.SECTION_TITLE"
+        [nodeToEdit]="nodeToEdit"
+        (onSubmit)="onNodeSubmitted($event)">
+    </app-configure-section-title>
 </ng-container>

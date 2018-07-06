@@ -1,21 +1,18 @@
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
-import {ArticleNode} from "../models/ArticleNode";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {ImageElement} from "../models/ImageElement";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { ArticleNode } from '../models/ArticleNode';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/of';
-import {UploadImagesResponse} from "./types/upload-images.response";
-import {FilesPipe} from "../pipes/files.pipe";
-import {ArticleSettings} from "../models/ArticleSettings";
-import {ArticleInstance} from "../models/article-instance.model";
-import {CollectionDto} from "./types/collection.dto";
-import {HttpParamsOptions} from "@angular/common/http/src/params";
-import {UsersService} from "./users.service";
-import {CollectionResponse} from "../types/collection.response";
-import {ArticleDetailsResponse} from "./types/article-details.response";
-import {ArticleNodesPipe} from "../pipes/article-nodes.pipe";
-import {TagInstance} from "../models/tag-instance.model";
+import { ArticleSettings } from '../models/ArticleSettings';
+import { ArticleInstance } from '../models/article-instance.model';
+import { CollectionDto } from './types/collection.dto';
+import { HttpParamsOptions } from '@angular/common/http/src/params';
+import { UsersService } from './users.service';
+import { CollectionResponse } from '../types/collection.response';
+import { ArticleDetailsResponse } from './types/article-details.response';
+import { ArticleNodesPipe } from '../pipes/article-nodes.pipe';
+import { TagInstance } from '../models/tag-instance.model';
 
 @Injectable()
 export class BlogService {
@@ -56,7 +53,7 @@ export class BlogService {
         return this.http.get<CollectionResponse<ArticleInstance>>(url, options)
             .map((collection: CollectionResponse<any>) => {
                 return {
-                    items: collection.items.map((data: any) => new ArticleInstance(data)),
+                    items: collection.items.map(((data: any) => new ArticleInstance(data))),
                     total: collection.total,
                 };
             });
@@ -68,7 +65,7 @@ export class BlogService {
         return this.http.get<ArticleDetailsResponse>(url)
             .map((response: ArticleDetailsResponse) => ({
                 instance: new ArticleInstance(response.instance),
-                nodes: response.nodes.map((data: any) => new ArticleNodesPipe().transform(data)),
+                nodes: response.nodes.map(((data: any) => new ArticleNodesPipe().transform(data))),
             }));
     }
 
@@ -77,7 +74,7 @@ export class BlogService {
 
         return this.http.get<CollectionResponse<TagInstance>>(url)
             .map((response: CollectionResponse<TagInstance>) => ({
-                items: response.items.map((data: any) => new TagInstance(data)),
+                items: response.items.map(((data: any) => new TagInstance(data))),
                 total: response.total,
             }));
     }
