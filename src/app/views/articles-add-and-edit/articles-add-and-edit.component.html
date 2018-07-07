@@ -16,6 +16,7 @@
                         <div class="stats" (click)="deleteNode(i)">
                             <i class="material-icons">delete</i> Delete
                         </div>
+                        <div class="stats" (click)="transformTextNode(nodes[i])" *ngIf="isNodeText(i)">Transform</div>
                     </div>
                 </div>
             </div>

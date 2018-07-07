@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FilesPipe } from './files.pipe';
 import { SplitPipe } from './split.pipe';
 import { ArticleNodesPipe } from './article-nodes.pipe';
+import { TextArticleNodesPipe } from './text-article-nodes.pipe';
 
 @NgModule({
     imports: [],
@@ -11,12 +12,14 @@ import { ArticleNodesPipe } from './article-nodes.pipe';
         FilesPipe,
         SplitPipe,
         ArticleNodesPipe,
+        TextArticleNodesPipe,
     ],
     exports: [
         MegabytesPipe,
         FilesPipe,
         SplitPipe,
         ArticleNodesPipe,
+        TextArticleNodesPipe,
     ],
 })
 export class PipesModule {

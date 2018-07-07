@@ -41,6 +41,10 @@ export namespace FormsContract {
         export const ANNOTATION = 'annotation';
     }
 
+    export namespace NodeKeyMoment {
+        export const TEXT = 'text';
+    }
+
     export namespace Errors {
         export const REQUIRED = 'required';
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ArticleNode } from '../../models/ArticleNode';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { AddOrEditNodeComponent } from './add-or-edit-node/add-or-edit-node.component';
@@ -21,14 +21,20 @@ import 'rxjs/add/observable/empty';
 import { ArticleSettingsComponent } from './article-settings/article-settings.component';
 import { ArticleSettings } from '../../models/ArticleSettings';
 import { NotificationsService } from '../../services/notifications.service';
-import {CommonComponent} from "../../classes/CommonComponent";
-import {SubscriptionsContract} from "../../contracts/subscriptions.contract";
-import {OpenSettingsModalDto} from "./types/open-settings-modal.dto";
-import {ActivatedRoute, Params} from "@angular/router";
-import {RoutingContract} from "../../contracts/routing.contract";
-import {ArticleInstance} from "../../models/article-instance.model";
-import {ArticleDetailsResponse} from "../../services/types/article-details.response";
-import {FilesService} from "../../services/files.service";
+import { CommonComponent } from '../../classes/CommonComponent';
+import { SubscriptionsContract } from '../../contracts/subscriptions.contract';
+import { OpenSettingsModalDto } from './types/open-settings-modal.dto';
+import { ActivatedRoute, Params } from '@angular/router';
+import { RoutingContract } from '../../contracts/routing.contract';
+import { ArticleDetailsResponse } from '../../services/types/article-details.response';
+import { FilesService } from '../../services/files.service';
+import { ArticleTextNode } from '../../models/article-text-node.model';
+import { NodeSectionTitle } from '../../models/node-section-title.model';
+import { TextArticleNodesPipe } from '../../pipes/text-article-nodes.pipe';
+import { NodeCommonText } from '../../models/NodeCommonText';
+import { NodeWithKeyMoment } from '../../models/node-with-key-moment.model';
+import { TransformableNodeDescriptor } from './types/transformable-node-descriptor';
+import {ArticleNodeTypes} from "../../enums/article-node-types.enum";
 
 @Component({
     selector: 'app-articles-add-and-edit',
@@ -43,6 +49,24 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
     public isEditing: boolean;
 
     private editedArticleId: number;
+
+    public readonly transformableTextNodeClasses: TransformableNodeDescriptor<ArticleTextNode>[] = [
+        {
+            title: 'Common text',
+            nodeType: ArticleNodeTypes.COMMON_TEXT,
+            transformableClass: NodeCommonText,
+        },
+        {
+            title: 'Section title',
+            nodeType: ArticleNodeTypes.SECTION_TITLE,
+            transformableClass: NodeSectionTitle,
+        },
+        {
+            title: 'Block with key moment',
+            nodeType: ArticleNodeTypes.KEY_MOMENT,
+            transformableClass: NodeWithKeyMoment,
+        },
+    ];
 
     constructor (
         private dialog: MatDialog,
@@ -188,6 +212,12 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
         return !!notUploadedImages.length;
     }
 
+    public isNodeText (nodeIndex: number) : boolean {
+        return this.transformableTextNodeClasses
+            .map(((descriptor) => descriptor.nodeType))
+            .includes(this.nodes[nodeIndex].type);
+    }
+
     public uploadImages () : void {
         const observables: Observable<UploadImagesResponse>[] = [];
 
@@ -236,6 +266,12 @@ export class ArticlesAddAndEditComponent extends CommonComponent implements OnIn
             SubscriptionsContract.ConfigureArticle.UPDATE_SETTINGS,
             dialogRef.afterClosed().subscribe(this.updateSettings.bind(this)),
         );
+    }
+
+    public transformTextNode (node: ArticleTextNode) : void {
+        const newNode: NodeSectionTitle = (new TextArticleNodesPipe<NodeSectionTitle>()).transform(node, NodeSectionTitle);
+
+        console.log(newNode);
     }
 
     public publishOrEdit () : void {

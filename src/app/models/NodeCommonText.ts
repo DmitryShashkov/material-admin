@@ -1,14 +1,10 @@
-import { ArticleNode } from './ArticleNode';
 import { ArticleNodeTypes } from '../enums/article-node-types.enum';
-import { ModelProperty } from 'ts-json-mapper';
 import { ImageElement } from './ImageElement';
+import { ArticleTextNode } from './article-text-node.model';
 
-const removeMarkdown = require('remove-markdown');
+const removeMarkdown = require(('remove-markdown'));
 
-export class NodeCommonText extends ArticleNode {
-    @ModelProperty()
-    public text: string;
-
+export class NodeCommonText extends ArticleTextNode {
     private static readonly WORDS_FOR_TITLE: number = 5;
 
     constructor (options: any) {

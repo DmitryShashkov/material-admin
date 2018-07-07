@@ -35,4 +35,9 @@
         [nodeToEdit]="nodeToEdit"
         (onSubmit)="onNodeSubmitted($event)">
     </app-configure-section-title>
+
+    <app-configure-key-moment *ngSwitchCase="NODE_TYPES.KEY_MOMENT"
+        [nodeToEdit]="nodeToEdit"
+        (onSubmit)="onNodeSubmitted($event)">
+    </app-configure-key-moment>
 </ng-container>

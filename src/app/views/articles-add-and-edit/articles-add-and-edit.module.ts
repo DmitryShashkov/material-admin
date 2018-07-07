@@ -26,6 +26,7 @@ import { ArticleSettingsComponent } from './article-settings/article-settings.co
 import { ConfigureTagsComponent } from './article-settings/configure-tags/configure-tags.component';
 import { ConfigureImageComponent } from './add-or-edit-node/configure-image/configure-image.component';
 import { ConfigureSectionTitleComponent } from './add-or-edit-node/configure-section-title/configure-section-title.component';
+import {ConfigureKeyMomentComponent} from "./add-or-edit-node/configure-key-moment/configure-key-moment.component";
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import { ConfigureSectionTitleComponent } from './add-or-edit-node/configure-sec
         ConfigureSectionTitleComponent,
         ConfigureCommonTextComponent,
         ConfigureImageComponent,
+        ConfigureKeyMomentComponent,
         ConfigureTagsComponent,
     ],
     entryComponents: [

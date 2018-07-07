@@ -4,4 +4,5 @@ export enum ArticleNodeTypes {
     // ANNOTATION = 'annotation',
     COMMON_TEXT = 'common-text',
     IMAGE = 'image',
+    KEY_MOMENT = 'key-moment',
 }

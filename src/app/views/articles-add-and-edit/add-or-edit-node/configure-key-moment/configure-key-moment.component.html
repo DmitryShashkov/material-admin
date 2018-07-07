@@ -1,0 +1,16 @@
+<h5>
+    Block with key moment configuration:
+</h5>
+
+<app-mde-editor
+    [initialValue]="nodeToEdit?.text"
+    (onValueChanged)="onEditorValueChanged($event)">
+</app-mde-editor>
+
+<button class="btn btn-primary btn-block" type="button" mat-button
+    [disabled]="nodeForm.invalid"
+    (click)="submit()" [ngSwitch]="!!nodeToEdit">
+    <ng-container *ngSwitchCase="true">Edit</ng-container>
+    <ng-container *ngSwitchCase="false">Add</ng-container>
+    block with key moment
+</button>

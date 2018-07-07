@@ -1,5 +1,5 @@
 import { ArticleNodeTypes } from '../enums/article-node-types.enum';
-import {BaseModel, ModelProperty} from 'ts-json-mapper';
+import { BaseModel, ModelProperty } from 'ts-json-mapper';
 import { ImageElement } from './ImageElement';
 
 export abstract class ArticleNode extends BaseModel {

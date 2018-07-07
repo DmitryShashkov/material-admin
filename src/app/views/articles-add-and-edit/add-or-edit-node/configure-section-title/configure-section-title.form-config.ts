@@ -1,5 +1,6 @@
 import { FormsContract } from '../../../../contracts/forms.contract';
 import { Validators } from '@angular/forms';
+import { HeaderLevels } from '../../../../enums/header-levels.enum';
 
 export const CONFIGURE_SECTION_TITLE_FORM_CONFIG = {
     [FormsContract.NodeSectionTitle.TEXT]: [
@@ -12,6 +13,6 @@ export const CONFIGURE_SECTION_TITLE_FORM_CONFIG = {
         '', [],
     ],
     [FormsContract.NodeSectionTitle.HEADER_LEVEL]: [
-        null, [Validators.required],
+        HeaderLevels.H2, [Validators.required],
     ],
 };
